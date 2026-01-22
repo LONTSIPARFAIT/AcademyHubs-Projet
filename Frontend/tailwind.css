@@ -1,7 +1,0 @@
-/* tailwind.css */
-@import "tailwindcss";
-
-/* Configuration du mode sombre */
-@custom-variant dark (&:where(.dark, .dark *));
-
-/* Vos styles personnalisés ici */
