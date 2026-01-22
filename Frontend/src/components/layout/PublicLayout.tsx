@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Header from '../Footerr';  // Assurez-vous que le chemin est correct
+import Header from '../Header';  // Assurez-vous que le chemin est correct
 import Footer from '../Footer';  // Assurez-vous que le chemin est correct
 
 const PublicLayout = () => {
