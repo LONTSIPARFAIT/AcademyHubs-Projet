@@ -1,12 +1,17 @@
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import PublicLayout from "./components/layout/PublicLayout";
+import Welcome from "./pages/Welcome";
 
 function App() {
-
   return (
-    <>
-      <div className='bg-red-600'>je mange</div>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<Welcome />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
