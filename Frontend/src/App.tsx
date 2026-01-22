@@ -1,8 +1,9 @@
-// App.tsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Welcome from "./pages/Welcome.tsx";
+import Login from "./pages/Login.tsx";
+import Register from "./pages/Register.tsx";
 import PublicLayout from "./components/layout/PublicLayout";
-import './App.css'
+import './App.css';
 
 function App() {
   return (
@@ -10,15 +11,25 @@ function App() {
       <Routes>
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Welcome />} />
-          {/* Ajoutez vos autres routes publiques ici */}
-          <Route path="/courses" element={<div>Cours Page</div>} />
-          <Route path="/paths" element={<div>Parcours Page</div>} />
-          <Route path="/mentors" element={<div>Mentors Page</div>} />
-          <Route path="/about" element={<div>À propos Page</div>} />
-          <Route path="/contact" element={<div>Contact Page</div>} />
-          <Route path="/login" element={<div>Login Page</div>} />
-          <Route path="/register" element={<div>Register Page</div>} />
+          {/* Ajoutez vos autres routes ici */}
+          <Route path="/courses" element={<div className="p-8">Page Cours - À développer</div>} />
+          <Route path="/paths" element={<div className="p-8">Page Parcours - À développer</div>} />
+          <Route path="/mentors" element={<div className="p-8">Page Mentors - À développer</div>} />
+          <Route path="/about" element={<div className="p-8">Page À propos - À développer</div>} />
+          <Route path="/contact" element={<div className="p-8">Page Contact - À développer</div>} />
         </Route>
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        {/* <Route path="/register/success" element={<RegisterSuccess />} /> */}
+        <Route path="*" element={
+          <div className="min-h-screen flex items-center justify-center">
+            <div className="text-center">
+              <h1 className="text-4xl font-bold mb-4">404</h1>
+              <p className="text-gray-600 dark:text-gray-400">Page non trouvée</p>
+            </div>
+          </div>
+        } />
       </Routes>
     </BrowserRouter>
   );
