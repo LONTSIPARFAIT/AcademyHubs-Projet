@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Welcome from "./pages/Welcome.tsx";
 import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
+import CoursesPage from "./pages/CoursesPage.tsx";
 import PublicLayout from "./components/layout/PublicLayout";
 import './App.css';
 
@@ -12,7 +13,7 @@ function App() {
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Welcome />} />
           {/* Ajoutez vos autres routes ici */}
-          <Route path="/courses" element={<div className="p-8">Page Cours - À développer</div>} />
+          <Route path="/courses" element={<CoursesPage />} />
           <Route path="/paths" element={<div className="p-8">Page Parcours - À développer</div>} />
           <Route path="/mentors" element={<div className="p-8">Page Mentors - À développer</div>} />
           <Route path="/about" element={<div className="p-8">Page À propos - À développer</div>} />
