@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Welcome from "./pages/Welcome.tsx";
+// import Welcome from "./pages/Welcome.tsx";
 import PublicLayout from "./components/layout/PublicLayout";
 
 function App() {
@@ -7,7 +7,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<PublicLayout />}>
-          <Route path="/" element={<Welcome />} />
+          {/* <Route path="/" element={<Welcome />} /> */}
         </Route>
       </Routes>
     </BrowserRouter>
