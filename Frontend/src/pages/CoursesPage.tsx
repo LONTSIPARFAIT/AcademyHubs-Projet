@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Header from '@/Components/Home/Header';
-import Footer from '@/Components/Home/Footer';
 
 const CoursesPage = () => {
   // États pour les filtres
@@ -387,7 +385,6 @@ const CoursesPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
-      <Header />
 
       <main className="flex-1">
         {/* Hero Section de la page des cours */}
@@ -884,7 +881,6 @@ const CoursesPage = () => {
         </section>
       </main>
 
-      <Footer />
     </div>
   );
 };
