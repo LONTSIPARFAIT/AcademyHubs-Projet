@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Welcome from "./pages/Welcome.tsx";
 import PublicLayout from "./components/layout/PublicLayout";
-import Welcome from "./pages/Welcome";
 
 function App() {
   return (
