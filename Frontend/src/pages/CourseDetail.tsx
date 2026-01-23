@@ -186,7 +186,7 @@ const CourseDetail = () => {
       setEnrolled(true);
     }
     navigate(`/learn/${id}/lesson/1`);
-  };
+  }; 
 
   const handleToggleLesson = (lessonId) => {
     if (completedLessons.includes(lessonId)) {
