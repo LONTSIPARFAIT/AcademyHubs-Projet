@@ -171,7 +171,7 @@ const CourseDetail = () => {
     const foundCourse = allCourses.find(c => c.id === parseInt(id));
     setCourse(foundCourse);
     
-    // Simuler un état d'inscription (à remplacer par votre logique d'authentification)
+    // Simuler un état d'inscription (à remplacer par votre logique d')
     const enrolledCourses = JSON.parse(localStorage.getItem('enrolledCourses') || '[]');
     setEnrolled(enrolledCourses.includes(parseInt(id)));
     
