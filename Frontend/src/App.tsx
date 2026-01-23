@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Welcome from "./pages/Welcome.tsx";
-import Login from "./pages/Login.tsx";
-import Register from "./pages/Register.tsx";
-import CoursesPage from "./pages/CoursesPage.tsx";
+import Login from "./pages/auth/Login.tsx";
+import Register from "./pages/auth/Register.tsx";
+import CoursesPage from "./pages/course/CoursesPage.tsx";
 import PublicLayout from "./components/layout/PublicLayout";
 import './App.css';
-import CourseDetail from "./pages/CourseDetail.tsx";
+import CourseDetail from "./pages/course/CourseDetail.tsx";
 
 function App() {
   return (
