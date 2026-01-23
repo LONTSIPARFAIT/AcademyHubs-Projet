@@ -191,7 +191,7 @@ const Header = () => {
         </div>
 
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
+          <div className="md:hidden bg-white dark:bg-gray-900 dark:text-gray-300 border-t border-gray-200 dark:border-gray-800">
             <div className="px-4 py-3 space-y-1">
               <Link to="/" className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm" onClick={closeMobileMenu}>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
