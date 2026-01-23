@@ -67,7 +67,7 @@ const Register = () => {
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
       console.log('Inscription avec:', formData);
-      navigate('/register/success');
+      navigate('/dashboard');
     } catch (err) {
       setErrors({ submit: 'Une erreur est survenue. Veuillez réessayer.' });
     } finally {
