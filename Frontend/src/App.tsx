@@ -21,7 +21,7 @@ function App() {
           <Route path="/about" element={<div className="p-8">Page À propos - À développer</div>} />
           <Route path="/contact" element={<div className="p-8">Page Contact - À développer</div>} />
         </Route>
-d
+
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         {/* <Route path="/register/success" element={<RegisterSuccess />} /> */}
