@@ -70,7 +70,7 @@ const Header = () => {
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-bold text-gray-900 dark:text-white">AcademyHub</span>
-                <span className="text-xs text-gray-500 dark:text-gray-400">Plateform d'apprentissage</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">Plateforme d'apprentissage</span>
               </div>
             </Link>
 
