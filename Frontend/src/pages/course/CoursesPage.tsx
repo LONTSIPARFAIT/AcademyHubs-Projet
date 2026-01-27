@@ -1,141 +1,727 @@
-import { useState, useMemo } from 'react';
-import { allCourses } from '../../data/courses';
-import { CourseCard } from '../../components/common/CourseCard';
-import type { Course } from '../../types';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const CoursesPage = () => {
-  // --- ÉTATS ---
-  const [searchTerm, setSearchTerm] = useState('');
+  // États pour les filtres
   const [selectedCategory, setSelectedCategory] = useState('Toutes');
   const [selectedLevel, setSelectedLevel] = useState('Tous');
+  const [selectedDuration, setSelectedDuration] = useState('Toutes');
   const [sortBy, setSortBy] = useState('popularity');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const coursesPerPage = 9;
 
-  // --- LOGIQUE DE FILTRE DYNAMIQUE ---
-  // On récupère les catégories uniques directement depuis tes données
-  const categories = useMemo(() => 
-    ['Toutes', ...new Set(allCourses.map(c => c.category))], 
-  []);
+  // États pour les sections déroulantes des filtres
+  const [openFilterSections, setOpenFilterSections] = useState({
+    category: true,
+    level: true,
+    duration: true
+  });
 
-  const filteredCourses = useMemo(() => {
-    let result = allCourses.filter(course => {
-      const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            course.description.toLowerCase().includes(searchTerm.toLowerCase());
+  // Statistiques de progression
+  const [enrolledStats, setEnrolledStats] = useState({
+    enrolled: 342,
+    completed: 28,
+    inProgress: 156,
+    certificates: 15
+  });
+
+  // Tous les cours disponibles (garder le même tableau allCourses)
+  const allCourses = [
+    // ... (garder exactement le même tableau de cours)
+  ];
+
+  // Catégories disponibles
+  const categories = [
+    'Toutes',
+    'Développement Web',
+    'Design',
+    'DevOps',
+    'Mobile',
+    'Data Science',
+    'Maintenance IT',
+    'Multimédia'
+  ];
+
+  // Niveaux disponibles
+  const levels = ['Tous', 'Débutant', 'Intermédiaire', 'Avancé'];
+
+  // Durées disponibles
+  const durations = ['Toutes', 'Court (< 6 semaines)', 'Moyen (6-10 semaines)', 'Long (> 10 semaines)'];
+
+  // Options de tri
+  const sortOptions = [
+    { value: 'popularity', label: 'Popularité' },
+    { value: 'rating', label: 'Meilleures notes' },
+    { value: 'newest', label: 'Plus récents' },
+    { value: 'students', label: 'Plus d\'étudiants' },
+    { value: 'duration', label: 'Durée' }
+  ];
+
+  // Fonction pour basculer l'état d'une section de filtre
+  const toggleFilterSection = (section) => {
+    setOpenFilterSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
+  // Filtrer les cours (garder la même fonction)
+  const filterCourses = () => {
+    return allCourses.filter(course => {
+      // ... (garder exactement la même logique de filtrage)
       const matchesCategory = selectedCategory === 'Toutes' || course.category === selectedCategory;
       const matchesLevel = selectedLevel === 'Tous' || course.level === selectedLevel;
-      return matchesSearch && matchesCategory && matchesLevel;
+      const matchesDuration = selectedDuration === 'Toutes' || 
+        (selectedDuration === 'Court (< 6 semaines)' && parseInt(course.duration) < 6) ||
+        (selectedDuration === 'Moyen (6-10 semaines)' && parseInt(course.duration) >= 6 && parseInt(course.duration) <= 10) ||
+        (selectedDuration === 'Long (> 10 semaines)' && parseInt(course.duration) > 10);
+      const matchesSearch = searchTerm === '' || 
+        course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        course.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        course.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        course.instructor.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      return matchesCategory && matchesLevel && matchesDuration && matchesSearch;
     });
+  };
 
-    // Tri
-    if (sortBy === 'rating') result.sort((a, b) => b.rating - a.rating);
-    if (sortBy === 'newest') result.sort((a, b) => b.id - a.id); // Simule le plus récent
+  // Trier les cours (garder la même fonction)
+  const sortCourses = (courses) => {
+    const sorted = [...courses];
     
-    return result;
-  }, [searchTerm, selectedCategory, selectedLevel, sortBy]);
+    switch(sortBy) {
+      case 'rating':
+        return sorted.sort((a, b) => b.rating - a.rating);
+      case 'newest':
+        return sorted.sort((a, b) => b.new - a.new);
+      case 'students':
+        return sorted.sort((a, b) => b.students - a.students);
+      case 'duration':
+        return sorted.sort((a, b) => parseInt(a.duration) - parseInt(b.duration));
+      case 'popularity':
+      default:
+        return sorted;
+    }
+  };
+
+  // Appliquer filtres et tri
+  const filteredAndSortedCourses = sortCourses(filterCourses());
+
+  // Pagination (garder la même logique)
+  const indexOfLastCourse = currentPage * coursesPerPage;
+  const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
+  const currentCourses = filteredAndSortedCourses.slice(indexOfFirstCourse, indexOfLastCourse);
+  const totalPages = Math.ceil(filteredAndSortedCourses.length / coursesPerPage);
+
+  // Réinitialiser les filtres
+  const resetFilters = () => {
+    setSelectedCategory('Toutes');
+    setSelectedLevel('Tous');
+    setSelectedDuration('Toutes');
+    setSortBy('popularity');
+    setSearchTerm('');
+    setCurrentPage(1);
+  };
+
+  // Gérer la recherche
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1);
+  };
+
+  // Rendu des badges de niveau (garder la même fonction)
+  const renderLevelBadge = (level) => {
+    const config = {
+      'Débutant': { color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100', text: 'Débutant' },
+      'Intermédiaire': { color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100', text: 'Intermédiaire' },
+      'Avancé': { color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100', text: 'Avancé' }
+    };
+    
+    const { color, text } = config[level] || config['Débutant'];
+    return (
+      <span className={`px-2 py-1 rounded-full text-xs font-semibold ${color}`}>
+        {text}
+      </span>
+    );
+  };
+
+  // Rendu des étoiles de notation (garder la même fonction)
+  const renderStars = (rating) => {
+    return (
+      <div className="flex items-center">
+        {[...Array(5)].map((_, i) => (
+          <svg
+            key={i}
+            className={`w-4 h-4 ${i < Math.floor(rating) ? 'text-yellow-400' : 'text-gray-300 dark:text-gray-600'}`}
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+        ))}
+        <span className="ml-1 text-sm font-medium text-gray-600 dark:text-gray-400">{rating}</span>
+      </div>
+    );
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
-      {/* Header de la page */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 py-12 mb-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-4">
-            Catalogue des Formations
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl">
-            Découvrez nos cours gratuits et commencez votre aventure dans la tech dès aujourd'hui.
-          </p>
-        </div>
-      </div>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row gap-8">
+      <main className="flex-1">
+        {/* Hero Section de la page des cours */}
+        <section className="relative py-12 md:py-16 lg:py-20 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900">
+          <div className="absolute inset-0 opacity-10">
+            <img
+              src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80"
+              alt="Étudiants suivant des cours en ligne"
+              className="w-full h-full object-cover"
+            />
+          </div>
           
-          {/* --- BARRE LATÉRALE DE FILTRES (Sidebar) --- */}
-          <aside className="w-full lg:w-64 space-y-8">
-            {/* Recherche */}
-            <div>
-              <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4">Recherche</h3>
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Chercher un cours..."
-                  className="w-full pl-4 pr-10 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-            </div>
-
-            {/* Catégories */}
-            <div>
-              <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4">Catégories</h3>
-              <div className="space-y-2">
-                {categories.map(category => (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`w-full text-left px-4 py-2 rounded-lg text-sm transition-colors ${
-                      selectedCategory === category 
-                        ? 'bg-indigo-600 text-white font-bold' 
-                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
-                    }`}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Niveaux */}
-            <div>
-              <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4">Niveau</h3>
-              <select 
-                value={selectedLevel}
-                onChange={(e) => setSelectedLevel(e.target.value)}
-                className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white outline-none"
-              >
-                {['Tous', 'Débutant', 'Intermédiaire', 'Avancé'].map(lvl => (
-                  <option key={lvl} value={lvl}>{lvl}</option>
-                ))}
-              </select>
-            </div>
-          </aside>
-
-          {/* --- GRILLE DE COURS --- */}
-          <main className="flex-1">
-            <div className="flex justify-between items-center mb-6">
-              <p className="text-gray-600 dark:text-gray-400">
-                <span className="font-bold text-gray-900 dark:text-white">{filteredCourses.length}</span> formations disponibles
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 md:mb-6">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-indigo-200">
+                  Catalogue des Cours
+                </span>
+              </h1>
+              
+              <p className="text-base sm:text-lg md:text-xl text-gray-200 max-w-3xl mx-auto mb-8">
+                Découvrez tous nos cours 100% gratuits et commencez votre apprentissage dès aujourd'hui
               </p>
-              <select 
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="bg-transparent text-sm font-medium text-gray-700 dark:text-gray-300 outline-none cursor-pointer"
-              >
-                <option value="popularity">Plus populaires</option>
-                <option value="rating">Mieux notés</option>
-                <option value="newest">Plus récents</option>
-              </select>
-            </div>
 
-            {filteredCourses.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-8">
-                {filteredCourses.map(course => (
-                  <CourseCard key={course.id} course={course} />
-                ))}
-              </div>
-            ) : (
-              <div className="bg-white dark:bg-gray-800 rounded-3xl p-12 text-center border-2 border-dashed border-gray-200 dark:border-gray-700">
-                <p className="text-gray-500 dark:text-gray-400 text-lg">
-                  Aucun cours ne correspond à vos filtres. 
-                  <button onClick={() => {setSearchTerm(''); setSelectedCategory('Toutes'); setSelectedLevel('Tous');}} className="ml-2 text-indigo-600 font-bold hover:underline">
-                    Réinitialiser
+              {/* Barre de recherche */}
+              <div className="max-w-2xl mx-auto mb-8">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Rechercher un cours, une technologie, un instructeur..."
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent"
+                  />
+                  <button className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                    <svg className="w-5 h-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
                   </button>
-                </p>
+                </div>
               </div>
-            )}
-          </main>
-        </div>
-      </div>
+
+              {/* Statistiques rapides */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
+                <div className="text-center p-4 bg-white/5 rounded-xl backdrop-blur-sm">
+                  <div className="text-2xl font-bold text-white mb-1">{allCourses.length}</div>
+                  <div className="text-sm text-white/80">Cours disponibles</div>
+                </div>
+                <div className="text-center p-4 bg-white/5 rounded-xl backdrop-blur-sm">
+                  <div className="text-2xl font-bold text-white mb-1">{enrolledStats.enrolled}</div>
+                  <div className="text-sm text-white/80">Étudiants inscrits</div>
+                </div>
+                <div className="text-center p-4 bg-white/5 rounded-xl backdrop-blur-sm">
+                  <div className="text-2xl font-bold text-white mb-1">{enrolledStats.certificates}</div>
+                  <div className="text-sm text-white/80">Certifications</div>
+                </div>
+                <div className="text-center p-4 bg-white/5 rounded-xl backdrop-blur-sm">
+                  <div className="text-2xl font-bold text-white mb-1">100%</div>
+                  <div className="text-sm text-white/80">Gratuits</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Section des filtres et contenu */}
+        <section className="py-8 md:py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col lg:flex-row gap-8">
+              {/* Sidebar des filtres - MODIFIÉE */}
+              <div className="lg:w-1/4">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 sticky top-6">
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-xl font-bold">Filtres</h2>
+                    <button
+                      onClick={resetFilters}
+                      className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 flex items-center gap-1"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                      Réinitialiser
+                    </button>
+                  </div>
+
+                  {/* Filtre Catégorie - AVEC DÉROULANT */}
+                  <div className="mb-6">
+                    <button
+                      onClick={() => toggleFilterSection('category')}
+                      className="flex items-center justify-between w-full font-semibold mb-3 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                    >
+                      <span>Catégorie</span>
+                      <svg
+                        className={`w-5 h-5 transform transition-transform ${openFilterSections.category ? 'rotate-180' : ''}`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    
+                    <div className={`space-y-2 overflow-hidden transition-all duration-300 ${openFilterSections.category ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                      {categories.map((category) => (
+                        <button
+                          key={category}
+                          onClick={() => {
+                            setSelectedCategory(category);
+                            setCurrentPage(1);
+                          }}
+                          className={`block w-full text-left px-3 py-2 rounded-lg transition-colors ${
+                            selectedCategory === category
+                              ? 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300'
+                              : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                          }`}
+                        >
+                          {category}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Filtre Niveau - AVEC DÉROULANT */}
+                  <div className="mb-6">
+                    <button
+                      onClick={() => toggleFilterSection('level')}
+                      className="flex items-center justify-between w-full font-semibold mb-3 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                    >
+                      <span>Niveau</span>
+                      <svg
+                        className={`w-5 h-5 transform transition-transform ${openFilterSections.level ? 'rotate-180' : ''}`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    
+                    <div className={`space-y-2 overflow-hidden transition-all duration-300 ${openFilterSections.level ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                      {levels.map((level) => (
+                        <button
+                          key={level}
+                          onClick={() => {
+                            setSelectedLevel(level);
+                            setCurrentPage(1);
+                          }}
+                          className={`block w-full text-left px-3 py-2 rounded-lg transition-colors ${
+                            selectedLevel === level
+                              ? 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300'
+                              : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                          }`}
+                        >
+                          {level}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Filtre Durée - AVEC DÉROULANT */}
+                  <div className="mb-6">
+                    <button
+                      onClick={() => toggleFilterSection('duration')}
+                      className="flex items-center justify-between w-full font-semibold mb-3 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                    >
+                      <span>Durée</span>
+                      <svg
+                        className={`w-5 h-5 transform transition-transform ${openFilterSections.duration ? 'rotate-180' : ''}`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    
+                    <div className={`space-y-2 overflow-hidden transition-all duration-300 ${openFilterSections.duration ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                      {durations.map((duration) => (
+                        <button
+                          key={duration}
+                          onClick={() => {
+                            setSelectedDuration(duration);
+                            setCurrentPage(1);
+                          }}
+                          className={`block w-full text-left px-3 py-2 rounded-lg transition-colors ${
+                            selectedDuration === duration
+                              ? 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300'
+                              : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                          }`}
+                        >
+                          {duration}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Bouton pour afficher/masquer tous les filtres sur mobile */}
+                  <div className="lg:hidden mb-6">
+                    <button
+                      onClick={() => {
+                        const allOpen = Object.values(openFilterSections).every(v => v);
+                        setOpenFilterSections({
+                          category: !allOpen,
+                          level: !allOpen,
+                          duration: !allOpen
+                        });
+                      }}
+                      className="w-full text-center text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 text-sm font-medium py-2 border border-indigo-200 dark:border-indigo-800 rounded-lg"
+                    >
+                      {Object.values(openFilterSections).every(v => v) ? 'Masquer tous' : 'Afficher tous'}
+                    </button>
+                  </div>
+
+                  {/* Info sur les résultats */}
+                  <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                      <p className="mb-1">
+                        <span className="font-semibold">{filteredAndSortedCourses.length}</span> cours trouvés
+                      </p>
+                      <p>
+                        Page <span className="font-semibold">{currentPage}</span> sur{' '}
+                        <span className="font-semibold">{totalPages}</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contenu principal */}
+              <div className="lg:w-3/4">
+                {/* En-tête avec options de tri */}
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+                  <div>
+                    <h2 className="text-2xl font-bold">
+                      {selectedCategory === 'Toutes' ? 'Tous les cours' : selectedCategory}
+                    </h2>
+                    <p className="text-gray-600 dark:text-gray-400 mt-1">
+                      {filteredAndSortedCourses.length} cours disponibles
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-gray-600 dark:text-gray-400">Trier par :</span>
+                      <select
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
+                        className="px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                      >
+                        {sortOptions.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="hidden sm:flex items-center gap-2">
+                      <span className="text-sm text-gray-600 dark:text-gray-400">Vue :</span>
+                      <button className="p-2 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                        </svg>
+                      </button>
+                      <button className="p-2 text-indigo-600 dark:text-indigo-400">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Liste des cours */}
+                {currentCourses.length > 0 ? (
+                  <>
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {currentCourses.map((course) => (
+                        <div
+                          key={course.id}
+                          className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-indigo-500"
+                        >
+                          {/* Image du cours */}
+                          <div className="relative h-40 overflow-hidden">
+                            <img
+                              src={course.img}
+                              alt={course.title}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
+                            
+                            {/* Badges */}
+                            <div className="absolute top-3 left-3 flex flex-col gap-2">
+                              {course.new && (
+                                <span className="px-2 py-1 bg-green-500 text-white text-xs font-semibold rounded-full">
+                                  Nouveau
+                                </span>
+                              )}
+                              {course.featured && (
+                                <span className="px-2 py-1 bg-yellow-500 text-white text-xs font-semibold rounded-full">
+                                  Populaire
+                                </span>
+                              )}
+                            </div>
+                            
+                            <div className="absolute top-3 right-3">
+                              {renderLevelBadge(course.level)}
+                            </div>
+                            
+                            {/* Badge gratuit */}
+                            <div className="absolute bottom-3 left-3">
+                              <span className="px-2 py-1 bg-indigo-600 text-white text-xs font-semibold rounded-full">
+                                GRATUIT
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Contenu du cours */}
+                          <div className="p-5">
+                            {/* Catégorie */}
+                            <div className="flex items-center justify-between mb-3">
+                              <span className="text-sm text-gray-500 dark:text-gray-400">
+                                {course.category}
+                              </span>
+                              <div className="flex items-center gap-1">
+                                {renderStars(course.rating)}
+                              </div>
+                            </div>
+
+                            {/* Titre */}
+                            <h3 className="text-lg font-bold mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2">
+                              <Link to={`/courses/${course.id}`}>
+                                {course.title}
+                              </Link>
+                            </h3>
+
+                            {/* Description */}
+                            <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">
+                              {course.description}
+                            </p>
+
+                            {/* Tags */}
+                            <div className="flex flex-wrap gap-1 mb-4">
+                              {course.tags.map((tag, index) => (
+                                <span
+                                  key={index}
+                                  className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full"
+                                >
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+
+                            {/* Infos supplémentaires */}
+                            <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
+                              <div className="flex items-center gap-2">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span>{course.duration}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                </svg>
+                                <span>{course.lessons} leçons</span>
+                              </div>
+                            </div>
+
+                            {/* Instructeur et étudiants */}
+                            <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
+                              <div className="flex items-center gap-2">
+                                <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center">
+                                  <span className="text-indigo-600 dark:text-indigo-400 font-bold text-xs">
+                                    {course.instructor.split(' ').map(n => n[0]).join('')}
+                                  </span>
+                                </div>
+                                <span className="text-xs text-gray-600 dark:text-gray-400">{course.instructor}</span>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-xs text-gray-500">{course.students} étudiants</div>
+                              </div>
+                            </div>
+
+                            {/* Bouton d'action */}
+                            <div className="mt-4">
+                              <Link
+                                to={`/courses/${course.id}`}
+                                className="block w-full text-center bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2.5 rounded-lg font-medium hover:from-indigo-700 hover:to-purple-700 transition-all duration-300"
+                              >
+                                Démarrer le cours
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                      <div className="mt-12 flex justify-center">
+                        <nav className="flex items-center gap-2">
+                          <button
+                            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
+                            className={`px-3 py-2 rounded-lg ${
+                              currentPage === 1
+                                ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed'
+                                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                            }`}
+                          >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                          </button>
+
+                          {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                            let pageNum;
+                            if (totalPages <= 5) {
+                              pageNum = i + 1;
+                            } else if (currentPage <= 3) {
+                              pageNum = i + 1;
+                            } else if (currentPage >= totalPages - 2) {
+                              pageNum = totalPages - 4 + i;
+                            } else {
+                              pageNum = currentPage - 2 + i;
+                            }
+
+                            return (
+                              <button
+                                key={pageNum}
+                                onClick={() => setCurrentPage(pageNum)}
+                                className={`px-4 py-2 rounded-lg font-medium ${
+                                  currentPage === pageNum
+                                    ? 'bg-indigo-600 text-white'
+                                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                                }`}
+                              >
+                                {pageNum}
+                              </button>
+                            );
+                          })}
+
+                          <button
+                            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                            disabled={currentPage === totalPages}
+                            className={`px-3 py-2 rounded-lg ${
+                              currentPage === totalPages
+                                ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed'
+                                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                            }`}
+                          >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                          </button>
+                        </nav>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  /* Aucun résultat */
+                  <div className="text-center py-16 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+                    <div className="text-gray-400 dark:text-gray-500 mb-4">
+                      <svg className="w-20 h-20 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-700 dark:text-gray-300 mb-3">
+                      Aucun cours trouvé
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
+                      Aucun cours ne correspond à vos critères de recherche. Essayez de modifier vos filtres ou votre recherche.
+                    </p>
+                    <button
+                      onClick={resetFilters}
+                      className="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-indigo-700 transition-colors duration-200"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                      Réinitialiser les filtres
+                    </button>
+                  </div>
+                )}
+
+                {/* Section de recommandations */}
+                {currentCourses.length > 0 && (
+                  <div className="mt-16">
+                    <h3 className="text-2xl font-bold mb-6">Vous pourriez aussi aimer</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {allCourses
+                        .filter(course => course.featured && course.id !== currentCourses[0]?.id)
+                        .slice(0, 3)
+                        .map((course) => (
+                          <div
+                            key={course.id}
+                            className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700"
+                          >
+                            <div className="flex items-start gap-4">
+                              <img
+                                src={course.img}
+                                alt={course.title}
+                                className="w-20 h-20 rounded-lg object-cover"
+                              />
+                              <div className="flex-1">
+                                <h4 className="font-bold text-sm mb-1 line-clamp-2">{course.title}</h4>
+                                <div className="flex items-center gap-2 mb-2">
+                                  {renderLevelBadge(course.level)}
+                                  <span className="text-xs text-gray-500">{course.duration}</span>
+                                </div>
+                                <Link
+                                  to={`/courses/${course.id}`}
+                                  className="text-indigo-600 dark:text-indigo-400 text-sm font-medium hover:underline"
+                                >
+                                  Voir le cours →
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-12 md:py-16 bg-gradient-to-r from-indigo-600 to-purple-600">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
+              Prêt à commencer votre apprentissage ?
+            </h2>
+            <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
+              Rejoignez des milliers d'apprenants et développez vos compétences gratuitement
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Link
+                to="/register"
+                className="bg-white text-indigo-600 px-8 py-3 rounded-xl font-bold text-lg hover:bg-gray-100 transition-colors duration-300"
+              >
+                S'inscrire gratuitement
+              </Link>
+              <Link
+                to="/paths"
+                className="border-2 border-white text-white px-8 py-3 rounded-xl font-bold text-lg hover:bg-white/10 transition-colors duration-300"
+              >
+                Explorer les parcours
+              </Link>
+            </div>
+          </div>
+        </section>
+      </main>
+
     </div>
   );
 };
