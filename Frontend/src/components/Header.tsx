@@ -84,7 +84,7 @@ const Header = () => {
                   Accueil
                 </Link>
                 
-                <Link to="/courses" className={`text-s font-medium transition-colors duration-200 flex items-center gap-1 ${
+                <Link to="/courses" className={`text- font-medium transition-colors duration-200 flex items-center gap-1 ${
                   location.pathname === '/courses' 
                     ? 'text-blue-600 dark:text-blue-400' 
                     : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
