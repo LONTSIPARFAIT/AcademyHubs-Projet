@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import CourseSearchHeader from '../../components/course/CourseSearchHeader';
-import CourseFilters from '../../components/course/CourseFilters';
-import CourseCard from '../../components/course/CourseCard';
-import CourseHeader from '../../components/course/CourseHeader';
-import Pagination from '../../components/course/Pagination';
-import NoResults from '../../components/course/NoResults';
-import Recommendations from '../../components/course/Recommendations';
-import CTASection from '../../components/course/CTASection';
+import CourseSearchHeader from '../../components/common/CourseSearchHeader';
+import CourseFilters from '../../components/common/CourseFilters';
+import CourseCard from '../../components/common/CourseCard';
+import Pagination from '../../components/common/Pagination';
+import NoResults from '../../components/common/NoResults';
+import Recommendations from '../../components/common/Recommendations';
+import CTASection from '../../components/common/CTASection';
 
 const CoursesPage = () => {
   // États pour les filtres
@@ -33,10 +32,236 @@ const CoursesPage = () => {
     certificates: 15
   });
 
-  // Tous les cours disponibles
+  // Tous les cours disponibles (copier-coller les 12 cours d'origine)
   const allCourses = [
-    // ... (garder exactement le même tableau de 12 cours)
-    // Copier-coller tous les cours ici
+    {
+      id: 1,
+      title: 'Développement Web Fullstack',
+      description: 'Maîtrisez HTML, CSS, JavaScript, Node.js et Tailwind pour créer des applications web complètes.',
+      category: 'Développement Web',
+      level: 'Débutant',
+      duration: '12 semaines',
+      lessons: 45,
+      students: 1200,
+      rating: 4.8,
+      instructor: 'Jean Dupont',
+      price: 0,
+      discountedPrice: 0,
+      img: 'https://images.unsplash.com/photo-1581287053822-fd7bf4f4d0f5?auto=format&fit=crop&w=800&q=80',
+      tags: ['Frontend', 'Backend', 'Projet', 'Certification'],
+      featured: true,
+      new: true,
+      progress: 0
+    },
+    {
+      id: 2,
+      title: 'Laravel & Développement Backend',
+      description: 'Construisez des applications robustes adaptées au marché africain avec Laravel et MySQL.',
+      category: 'Développement Web',
+      level: 'Intermédiaire',
+      duration: '10 semaines',
+      lessons: 38,
+      students: 850,
+      rating: 4.9,
+      instructor: 'Marie Kamga',
+      price: 0,
+      discountedPrice: 0,
+      img: 'https://images.unsplash.com/photo-1555066931-bf19c0fd1085?auto=format&fit=crop&w=800&q=80',
+      tags: ['Backend', 'API', 'Base de données'],
+      featured: true,
+      new: false,
+      progress: 0
+    },
+    {
+      id: 3,
+      title: 'React & Next.js Avancé',
+      description: 'Créez des applications React modernes avec Next.js 14, TypeScript et Tailwind CSS.',
+      category: 'Développement Web',
+      level: 'Avancé',
+      duration: '8 semaines',
+      lessons: 32,
+      students: 720,
+      rating: 4.7,
+      instructor: 'Samuel Nkono',
+      price: 0,
+      discountedPrice: 0,
+      img: 'https://images.unsplash.com/photo-1633356122542-727a01e23861?auto=format&fit=crop&w=800&q=80',
+      tags: ['React', 'TypeScript', 'Next.js'],
+      featured: true,
+      new: true,
+      progress: 0
+    },
+    {
+      id: 4,
+      title: 'UI/UX Design pour Débutants',
+      description: 'Apprenez les principes du design d\'interface et créez des expériences utilisateur exceptionnelles.',
+      category: 'Design',
+      level: 'Débutant',
+      duration: '6 semaines',
+      lessons: 25,
+      students: 680,
+      rating: 4.6,
+      instructor: 'Sarah Mbala',
+      price: 0,
+      discountedPrice: 0,
+      img: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=800&q=80',
+      tags: ['Design', 'Figma', 'Prototype'],
+      featured: false,
+      new: true,
+      progress: 0
+    },
+    {
+      id: 5,
+      title: 'DevOps & Déploiement Cloud',
+      description: 'Déployez vos applications avec Docker, AWS et CI/CD pour le marché africain.',
+      category: 'DevOps',
+      level: 'Intermédiaire',
+      duration: '9 semaines',
+      lessons: 35,
+      students: 540,
+      rating: 4.8,
+      instructor: 'Paul Owono',
+      price: 0,
+      discountedPrice: 0,
+      img: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80',
+      tags: ['DevOps', 'Cloud', 'Docker'],
+      featured: false,
+      new: false,
+      progress: 0
+    },
+    {
+      id: 6,
+      title: 'Mobile avec React Native',
+      description: 'Développez des applications mobiles cross-platform pour le marché camerounais.',
+      category: 'Mobile',
+      level: 'Intermédiaire',
+      duration: '11 semaines',
+      lessons: 40,
+      students: 490,
+      rating: 4.5,
+      instructor: 'Lisa Ndifor',
+      price: 0,
+      discountedPrice: 0,
+      img: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80',
+      tags: ['Mobile', 'React Native', 'iOS/Android'],
+      featured: false,
+      new: false,
+      progress: 0
+    },
+    {
+      id: 7,
+      title: 'HTML & CSS Fondamentaux',
+      description: 'Apprenez les bases du développement web avec HTML5 et CSS3.',
+      category: 'Développement Web',
+      level: 'Débutant',
+      duration: '4 semaines',
+      lessons: 20,
+      students: 2100,
+      rating: 4.7,
+      instructor: 'Jean Dupont',
+      price: 0,
+      discountedPrice: 0,
+      img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80',
+      tags: ['HTML', 'CSS', 'Responsive'],
+      featured: false,
+      new: false,
+      progress: 0
+    },
+    {
+      id: 8,
+      title: 'JavaScript Moderne',
+      description: 'Maîtrisez JavaScript ES6+, les APIs modernes et les concepts avancés.',
+      category: 'Développement Web',
+      level: 'Intermédiaire',
+      duration: '8 semaines',
+      lessons: 30,
+      students: 1650,
+      rating: 4.8,
+      instructor: 'Jean Dupont',
+      price: 0,
+      discountedPrice: 0,
+      img: 'https://images.unsplash.com/photo-1627398242454-45a1465c2479?auto=format&fit=crop&w=800&q=80',
+      tags: ['JavaScript', 'ES6+', 'Async'],
+      featured: true,
+      new: false,
+      progress: 0
+    },
+    {
+      id: 9,
+      title: 'Figma Avancé',
+      description: 'Créez des prototypes interactifs et des design systems professionnels.',
+      category: 'Design',
+      level: 'Avancé',
+      duration: '5 semaines',
+      lessons: 18,
+      students: 320,
+      rating: 4.9,
+      instructor: 'Sarah Mbala',
+      price: 0,
+      discountedPrice: 0,
+      img: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=800&q=80',
+      tags: ['Figma', 'Prototype', 'Design System'],
+      featured: false,
+      new: true,
+      progress: 0
+    },
+    {
+      id: 10,
+      title: 'Python pour la Data Science',
+      description: 'Analysez des données et créez des modèles prédictifs avec Python.',
+      category: 'Data Science',
+      level: 'Intermédiaire',
+      duration: '10 semaines',
+      lessons: 42,
+      students: 890,
+      rating: 4.7,
+      instructor: 'David Nkem',
+      price: 0,
+      discountedPrice: 0,
+      img: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80',
+      tags: ['Python', 'Data', 'Machine Learning'],
+      featured: true,
+      new: false,
+      progress: 0
+    },
+    {
+      id: 11,
+      title: 'Maintenance Informatique',
+      description: 'Apprenez le dépannage et la maintenance des équipements informatiques.',
+      category: 'Maintenance IT',
+      level: 'Débutant',
+      duration: '7 semaines',
+      lessons: 28,
+      students: 430,
+      rating: 4.6,
+      instructor: 'Pierre Mbarga',
+      price: 0,
+      discountedPrice: 0,
+      img: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80',
+      tags: ['Hardware', 'Réseau', 'Dépannage'],
+      featured: false,
+      new: true,
+      progress: 0
+    },
+    {
+      id: 12,
+      title: 'Montage Vidéo avec Premiere Pro',
+      description: 'Créez des vidéos professionnelles avec Adobe Premiere Pro.',
+      category: 'Multimédia',
+      level: 'Intermédiaire',
+      duration: '8 semaines',
+      lessons: 32,
+      students: 380,
+      rating: 4.5,
+      instructor: 'Clara Fotso',
+      price: 0,
+      discountedPrice: 0,
+      img: 'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&w=800&q=80',
+      tags: ['Vidéo', 'Adobe', 'Montage'],
+      featured: false,
+      new: false,
+      progress: 0
+    }
   ];
 
   // Fonction pour basculer l'état d'une section de filtre
@@ -145,6 +370,51 @@ const CoursesPage = () => {
     );
   };
 
+  // Composant d'en-tête pour le contenu principal
+  const CourseHeader = () => (
+    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+      <div>
+        <h2 className="text-2xl font-bold">
+          {selectedCategory === 'Toutes' ? 'Tous les cours' : selectedCategory}
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400 mt-1">
+          {filteredAndSortedCourses.length} cours disponibles
+        </p>
+      </div>
+
+      <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-gray-600 dark:text-gray-400">Trier par :</span>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+          >
+            <option value="popularity">Popularité</option>
+            <option value="rating">Meilleures notes</option>
+            <option value="newest">Plus récents</option>
+            <option value="students">Plus d'étudiants</option>
+            <option value="duration">Durée</option>
+          </select>
+        </div>
+
+        <div className="hidden sm:flex items-center gap-2">
+          <span className="text-sm text-gray-600 dark:text-gray-400">Vue :</span>
+          <button className="p-2 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+            </svg>
+          </button>
+          <button className="p-2 text-indigo-600 dark:text-indigo-400">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
       <main className="flex-1">
@@ -175,12 +445,7 @@ const CoursesPage = () => {
               />
 
               <div className="lg:w-3/4">
-                <CourseHeader
-                  selectedCategory={selectedCategory}
-                  filteredAndSortedCourses={filteredAndSortedCourses}
-                  sortBy={sortBy}
-                  setSortBy={setSortBy}
-                />
+                <CourseHeader />
 
                 {currentCourses.length > 0 ? (
                   <>
