@@ -1,17 +1,32 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import type { Course } from '../../types';
 
 interface RecommendationsProps {
-  allCourses: any[];
-  currentCourses: any[];
-  renderLevelBadge: (level: string) => React.ReactNode;
+  allCourses: Course[];
+  currentCourses: Course[];
 }
 
 const Recommendations: React.FC<RecommendationsProps> = ({
   allCourses,
-  currentCourses,
-  renderLevelBadge
+  currentCourses
 }) => {
+  // Fonction pour rendre le badge de niveau
+  const renderLevelBadge = (level: Course['level']) => {
+    const config = {
+      'Débutant': { color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100', text: 'Débutant' },
+      'Intermédiaire': { color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100', text: 'Intermédiaire' },
+      'Avancé': { color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100', text: 'Avancé' }
+    };
+    
+    const { color, text } = config[level] || config['Débutant'];
+    return (
+      <span className={`px-2 py-1 rounded-full text-xs font-semibold ${color}`}>
+        {text}
+      </span>
+    );
+  };
+
   return (
     <div className="mt-16">
       <h3 className="text-2xl font-bold mb-6">Vous pourriez aussi aimer</h3>
