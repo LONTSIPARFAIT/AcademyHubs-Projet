@@ -1,15 +1,11 @@
 import React from 'react';
+import { UserCourseStats, Course } from '../../types';
 
 interface CourseSearchHeaderProps {
   searchTerm: string;
   handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  enrolledStats: {
-    enrolled: number;
-    completed: number;
-    inProgress: number;
-    certificates: number;
-  };
-  allCourses: any[];
+  enrolledStats: UserCourseStats;
+  allCourses: Course[];
 }
 
 const CourseSearchHeader: React.FC<CourseSearchHeaderProps> = ({
