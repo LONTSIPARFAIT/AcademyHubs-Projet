@@ -1,5 +1,6 @@
+// pages/course/CoursesPage.tsx
 import React, { useState } from 'react';
-import { Course, FilterSectionState } from '../../types';
+import type { Course } from '../../types/course';
 import { 
   mockCourses, 
   mockEnrolledStats, 
@@ -15,6 +16,13 @@ import Pagination from '../../components/common/Pagination';
 import NoResults from '../../components/common/NoResults';
 import Recommendations from '../../components/common/Recommendations';
 import CTASection from '../../components/common/CTASection';
+
+// Définir localement FilterSectionState
+interface FilterSectionState {
+  category: boolean;
+  level: boolean;
+  duration: boolean;
+}
 
 const CoursesPage = () => {
   // États pour les filtres
