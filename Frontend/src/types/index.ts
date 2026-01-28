@@ -1,8 +1,11 @@
-// types/index.ts
+// src/types/index.ts
 export * from './course';
 export * from './user';
 export * from './auth';
 export * from './common';
+
+// Ré-exporter explicitement FilterSectionState
+export type { FilterSectionState } from './course';
 
 export type ApiResponse<T> = {
   success: boolean;

@@ -1,5 +1,13 @@
+// components/common/CourseFilters.tsx
 import React from 'react';
-import { FilterSectionState, Course } from '../../types';
+import type { Course } from '../../types/course';
+
+// Définir FilterSectionState localement si non exporté
+interface FilterSectionState {
+  category: boolean;
+  level: boolean;
+  duration: boolean;
+}
 
 interface CourseFiltersProps {
   selectedCategory: string;
