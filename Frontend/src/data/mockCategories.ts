@@ -1,4 +1,4 @@
-import { CourseCategory } from '../types';
+import type { CourseCategory } from '../types';
 
 export const mockCategories: CourseCategory[] = [
   {

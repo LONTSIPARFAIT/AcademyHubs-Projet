@@ -1,4 +1,4 @@
-import { Course } from '../types';
+import type { Course } from '../types';
 
 export const mockCourses: Course[] = [
   {
@@ -231,7 +231,6 @@ export const mockCourses: Course[] = [
   }
 ];
 
-// Fonctions utilitaires pour les cours
 export const getCourseById = (id: number): Course | undefined => {
   return mockCourses.find(course => course.id === id);
 };
