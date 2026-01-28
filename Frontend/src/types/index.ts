@@ -1,32 +1,21 @@
-export interface Course {
-   id: number;
-    title: string;
-    description: string;
-    category: string;
-    level: string;
-    duration: string;
-    lessons: number;
-    students: number;
-    rating: number;
-    instructor: string;
-    price: number;
-    discountedPrice: number;
-    img: string;
-    tags: string[];
-    featured: boolean;
-    new: boolean;
-    progress: number;
-}
+// Ré-exportation de tous les types
+export * from './course';
+export * from './user';
+export * from './auth';
+export * from './common';
 
-export interface Filter {
-  category: boolean;
-  level: boolean;
-  duration: boolean;
-}
+// Vous pouvez aussi créer des types globaux si nécessaire
+export type ApiResponse<T> = {
+  success: boolean;
+  data?: T;
+  message?: string;
+  error?: string;
+};
 
-export interface User {
-  firstName: string;
-  lastName: string;
-  email: string;
-  avatar?: string;
+export type Status = 'idle' | 'loading' | 'succeeded' | 'failed';
+
+export interface ApiError {
+  status: number;
+  message: string;
+  errors?: Record<string, string[]>;
 }
