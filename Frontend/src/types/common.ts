@@ -1,4 +1,3 @@
-// Types pour les composants UI
 export interface Option {
   value: string;
   label: string;
@@ -22,7 +21,6 @@ export interface ButtonProps {
   type?: 'button' | 'submit' | 'reset';
 }
 
-// Types pour les statistiques
 export interface StatsCard {
   title: string;
   value: number | string;
@@ -34,14 +32,12 @@ export interface StatsCard {
   };
 }
 
-// Types pour les paginations
 export interface PaginationProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
 }
 
-// Types pour les formulaires
 export interface FormField {
   name: string;
   label: string;
