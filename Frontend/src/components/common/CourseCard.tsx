@@ -1,26 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import type { Course } from '../../types';
 
 interface CourseCardProps {
-  course: {
-    id: number;
-    title: string;
-    description: string;
-    category: string;
-    level: string;
-    duration: string;
-    lessons: number;
-    students: number;
-    rating: number;
-    instructor: string;
-    price: number;
-    discountedPrice: number;
-    img: string;
-    tags: string[];
-    featured: boolean;
-    new: boolean;
-    progress: number;
-  };
+  course: Course;
   renderLevelBadge: (level: string) => React.ReactNode;
   renderStars: (rating: number) => React.ReactNode;
 }

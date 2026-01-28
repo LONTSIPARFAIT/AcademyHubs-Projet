@@ -18,6 +18,12 @@ export interface Course {
     progress: number;
 }
 
+export interface Filter {
+  category: boolean;
+  level: boolean;
+  duration: boolean;
+}
+
 export interface User {
   firstName: string;
   lastName: string;
