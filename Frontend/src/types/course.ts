@@ -52,7 +52,7 @@ export interface Lesson {
   courseId: number;
   title: string;
   description: string;
-  duration: number; // en minutes
+  duration: number;
   videoUrl?: string;
   content: string;
   order: number;
@@ -70,7 +70,6 @@ export interface CourseReview {
   date: Date;
 }
 
-// Types pour les filtres de cours
 export type SortOption = 'popularity' | 'rating' | 'newest' | 'students' | 'duration';
 
 export interface FilterSectionState {
