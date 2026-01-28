@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserCourseStats, Course } from '../../types';
+import type { UserCourseStats, Course } from '../../types';
 
 interface CourseSearchHeaderProps {
   searchTerm: string;

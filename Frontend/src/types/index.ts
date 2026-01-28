@@ -1,3 +1,4 @@
+// types/index.ts
 export * from './course';
 export * from './user';
 export * from './auth';
