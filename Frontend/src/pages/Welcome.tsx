@@ -97,7 +97,7 @@ const Welcome = () => {
                 au Cameroun
               </span>
             </h1>
-            
+
             <p className="text-base sm:text-lg md:text-xl text-gray-200 max-w-3xl mx-auto mb-8 md:mb-10 animate-fade-in" style={{ animationDelay: '200ms' }}>
               Formations 100% gratuites • Projets concrets du marché local • Certifications reconnues • Communauté active
             </p>
@@ -359,109 +359,6 @@ const Welcome = () => {
       </main>
     </div>
   );
-    {
-      title: 'Développeur Web Fullstack',
-      duration: '6 mois',
-      courses: 4,
-      jobs: ['Développeur Fullstack', 'Frontend Engineer', 'Backend Developer'],
-      icon: '💻'
-    },
-    {
-      title: 'Designer UI/UX',
-      duration: '4 mois',
-      courses: 3,
-      jobs: ['UI Designer', 'UX Researcher', 'Product Designer'],
-      icon: '🎨'
-    },
-    {
-      title: 'DevOps Engineer',
-      duration: '5 mois',
-      courses: 3,
-      jobs: ['DevOps Engineer', 'Cloud Architect', 'SRE'],
-      icon: '⚙️'
-    }
-  ];
+};
 
-  // Catégories de formations
-  const formationCategories = [
-    {
-      title: 'Développement Web',
-      description: 'Devenez développeur web fullstack avec HTML, CSS, JavaScript et frameworks modernes',
-      icon: '💻',
-      color: 'from-blue-500 to-cyan-500',
-      bgColor: 'bg-blue-50 dark:bg-blue-900/20',
-      courses: 8
-    },
-    {
-      title: 'Graphisme & Design',
-      description: 'Maîtrisez le design UI/UX, la création graphique et les outils professionnels',
-      icon: '🎨',
-      color: 'from-purple-500 to-pink-500',
-      bgColor: 'bg-purple-50 dark:bg-purple-900/20',
-      courses: 6
-    },
-    {
-      title: 'Maintenance IT',
-      description: 'Apprenez la maintenance informatique, le dépannage et la gestion de réseau',
-      icon: '🔧',
-      color: 'from-green-500 to-emerald-500',
-      bgColor: 'bg-green-50 dark:bg-green-900/20',
-      courses: 5
-    },
-    {
-      title: 'Montage Vidéo',
-      description: 'Créez des vidéos professionnelles avec les techniques de montage et trucage',
-      icon: '🎬',
-      color: 'from-red-500 to-orange-500',
-      bgColor: 'bg-red-50 dark:bg-red-900/20',
-      courses: 4
-    }
-  ];
-
-  // Témoignages
-  const testimonials = [
-    {
-      name: 'Kevin M.',
-      role: 'Développeur Fullstack',
-      company: 'Startup Tech, Douala',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
-      quote: 'Grâce à AcademyHub, j\'ai pu décrocher mon premier emploi en 4 mois seulement. Les projets concrets m\'ont donné confiance.',
-      improvement: '+85% de salaire'
-    },
-    {
-      name: 'Amina B.',
-      role: 'UI/UX Designer',
-      company: 'Agence Digitale, Yaoundé',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=200&q=80',
-      quote: 'La communauté m\'a énormément aidée. Les mentors sont disponibles et les projets sont réalistes.',
-      improvement: 'Promotion en 3 mois'
-    },
-    {
-      name: 'Samuel T.',
-      role: 'DevOps Engineer',
-      company: 'Banque Internationale',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
-      quote: 'Les cours sur le cloud et DevOps étaient parfaits pour le marché africain. Je recommande à 100%.',
-      improvement: 'Certification AWS obtenue'
-    }
-  ];
-
-  // FAQ
-  const faqs = [
-    {
-      q: 'Les cours sont-ils vraiment gratuits ?',
-      a: 'Oui, tous nos cours sont 100% gratuits et le resteront. Nous croyons en l\'accès libre à l\'éducation tech en Afrique.'
-    },
-    {
-      q: 'Les certificats sont-ils reconnus ?',
-      a: 'Nos certificats sont reconnus par plusieurs entreprises partenaires au Cameroun et en Afrique francophone.'
-    },
-    {
-      q: 'Quel est le rythme recommandé ?',
-      a: 'Nous recommandons 5-10h par semaine. Nos cours sont conçus pour être suivis en parallèle d\'études ou d\'un emploi.'
-    },
-    {
-      q: 'Y a-t-il un accompagnement ?',
-      a: 'Oui, vous aurez accès à une communauté active, des mentors et des sessions de questions-réponses hebdomadaires.'
-    }
-  ];
+export default Welcome;
