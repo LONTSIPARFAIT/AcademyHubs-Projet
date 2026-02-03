@@ -118,7 +118,7 @@ const CoursesPage = () => {
         course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         course.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
         course.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        course.instructor.toLowerCase().includes(searchTerm.toLowerCase());
+        (typeof course.instructor === 'string' ? course.instructor : course.instructor.name).toLowerCase().includes(searchTerm.toLowerCase());
       
       return matchesCategory && matchesLevel && matchesDuration && matchesSearch;
     });

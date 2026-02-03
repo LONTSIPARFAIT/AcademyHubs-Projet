@@ -12,7 +12,7 @@ export interface Course {
   students: number;
   rating: number;
   reviews: number;
-  instructor: Instructor;
+  instructor: string | Instructor;
   price: number;
   discountedPrice: number;
   img: string;

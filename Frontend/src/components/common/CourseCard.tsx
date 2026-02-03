@@ -51,7 +51,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
   };
 
   // Obtenir les initiales de l'instructeur
-  const getInstructorInitials = (name: string) => {
+  const getInstructorInitials = (instructor: string | { name: string }) => {
+    const name = typeof instructor === 'string' ? instructor : instructor.name;
     return name
       .split(' ')
       .map(n => n[0])
@@ -187,7 +188,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
               </span>
             </div>
             <span className="text-xs text-gray-600 dark:text-gray-400 truncate max-w-[100px]">
-              {course.instructor}
+              {typeof course.instructor === 'string' ? course.instructor : course.instructor.name}
             </span>
           </div>
           <div className="text-right">
