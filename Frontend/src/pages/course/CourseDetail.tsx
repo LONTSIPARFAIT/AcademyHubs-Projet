@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useCourseDetail } from '../../hooks/useCourseDetail';
+import { mockCourses } from '../../data';
 
 const CourseDetail = () => {
   const { id } = useParams();
@@ -430,7 +431,7 @@ const CourseDetail = () => {
             )}
             
             {/* Instructor Tab */}
-            {activeTab === 'instructor' && course.instructor && (
+            {activeTab === 'instructor' && course.instructor && typeof course.instructor !== 'string' && (
               <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
                 <div className="flex items-start gap-6 mb-6">
                   <img
@@ -476,6 +477,18 @@ const CourseDetail = () => {
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">Satisfaction</div>
                   </div>
+                </div>
+              </div>
+            )}
+            
+            {/* Instructor Tab - Fallback for string instructor */}
+            {activeTab === 'instructor' && course.instructor && typeof course.instructor === 'string' && (
+              <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                <div className="text-center py-8">
+                  <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-gray-100">À propos de l'instructeur</h3>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    {course.instructor}
+                  </p>
                 </div>
               </div>
             )}
@@ -580,7 +593,7 @@ const CourseDetail = () => {
             <div className="sticky top-6">
               <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Cours similaires</h3>
               <div className="space-y-4">
-                {allCourses
+                {mockCourses
                   .filter(c => c.id !== course.id && c.category === course.category)
                   .slice(0, 3)
                   .map((relatedCourse) => (
