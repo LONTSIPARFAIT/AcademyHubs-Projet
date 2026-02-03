@@ -1,5 +1,10 @@
 import { useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useCourseDetail } from '../../hooks/useCourseDetail';
+import { CourseOverview } from '../../components/course/CourseOverview';
+import { CourseSyllabus } from '../../components/course/CourseSyllabus';
+import { CourseInstructor } from '../../components/course/CourseInstructor';
+import { CourseReviews } from '../../components/course/CourseReviews';
 
 const CourseDetail = () => {
   const { id } = useParams();
@@ -48,21 +53,9 @@ const CourseDetail = () => {
       email: 'user@example.com'
     };
     localStorage.setItem('user', JSON.stringify(mockUser));
-    setIsLoggedIn(true);
     setShowLoginModal(false);
-    handleEnroll();
-  };
-
-  const handleToggleLesson = (lessonId) => {
-    if (completedLessons.includes(lessonId)) {
-      setCompletedLessons(completedLessons.filter(id => id !== lessonId));
-    } else {
-      setCompletedLessons([...completedLessons, lessonId]);
-    }
-    // Mettre à jour la progression
-    const totalLessons = course.lessons;
-    const newProgress = ((completedLessons.length + 1) / totalLessons) * 100;
-    setProgress(Math.min(newProgress, 100));
+    // Recharger la page pour mettre à jour l'état de connexion
+    window.location.reload();
   };
 
   if (loading) {

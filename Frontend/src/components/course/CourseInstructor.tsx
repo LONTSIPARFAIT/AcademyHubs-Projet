@@ -5,7 +5,7 @@ interface CourseInstructorProps {
 }
 
 export const CourseInstructor: React.FC<CourseInstructorProps> = ({ course }) => {
-  if (!course.instructor) {
+  if (!course.instructor || typeof course.instructor === 'string') {
     return (
       <div className="text-center py-8">
         <p className="text-gray-500 dark:text-gray-400">
