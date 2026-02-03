@@ -394,13 +394,13 @@ const CourseDetail = () => {
                       <div className="flex items-center gap-4">
                         <div className="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center">
                           <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                            {week.week}
+                            {index + 1}
                           </span>
                         </div>
                         <div className="text-left">
                           <h3 className="font-bold text-gray-900 dark:text-gray-100">{week.title}</h3>
                           <p className="text-sm text-gray-500 dark:text-gray-400">
-                            {week.lessons} leçons • {week.duration}
+                            {week.topics.length} sujets
                           </p>
                         </div>
                       </div>
