@@ -1,16 +1,11 @@
 import { useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useCourseDetail } from '../../hooks/useCourseDetail';
-import { CourseOverview } from '../../components/course/CourseOverview';
-import { CourseSyllabus } from '../../components/course/CourseSyllabus';
-import { CourseInstructor } from '../../components/course/CourseInstructor';
-import { CourseReviews } from '../../components/course/CourseReviews';
 
 const CourseDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
-  const [progress, setProgress] = useState(0);
   const [completedLessons, setCompletedLessons] = useState<number[]>([]);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
