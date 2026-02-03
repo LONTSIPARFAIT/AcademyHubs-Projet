@@ -177,7 +177,6 @@ const CourseFilters: React.FC<CourseFiltersProps> = ({
         <div className="lg:hidden mb-6">
           <button
             onClick={() => {
-              const allOpen = Object.values(openFilterSections).every(v => v);
               toggleFilterSection('category');
               toggleFilterSection('level');
               toggleFilterSection('duration');

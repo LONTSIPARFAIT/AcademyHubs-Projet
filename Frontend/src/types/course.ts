@@ -3,22 +3,30 @@ export interface Course {
   id: number;
   title: string;
   description: string;
+  longDescription?: string;
   category: string;
+  categoryId: number;
   level: 'Débutant' | 'Intermédiaire' | 'Avancé';
   duration: string;
   lessons: number;
   students: number;
   rating: number;
-  instructor: string;
+  reviews: number;
+  instructor: Instructor;
   price: number;
   discountedPrice: number;
   img: string;
+  bannerImg?: string;
   tags: string[];
   featured: boolean;
   new: boolean;
   progress: number;
   enrolled?: boolean;
   completedLessons?: number;
+  outcomes?: string[];
+  requirements?: string[];
+  resources?: string[];
+  syllabus?: SyllabusWeek[];
 }
 
 export interface CourseCategory {
@@ -47,16 +55,22 @@ export interface CourseProgress {
   completed: boolean;
 }
 
-export interface Lesson {
+export interface Instructor {
   id: number;
-  courseId: number;
+  name: string;
+  avatar: string;
+  bio: string;
+  rating: number;
+  courses: number;
+  students: number;
+  experience: string;
+}
+
+export interface SyllabusWeek {
+  id: number;
   title: string;
   description: string;
-  duration: number;
-  videoUrl?: string;
-  content: string;
-  order: number;
-  completed: boolean;
+  topics: string[];
 }
 
 export interface CourseReview {
