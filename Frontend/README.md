@@ -1,73 +1,95 @@
-# React + TypeScript + Vite
+# AcademyHubs - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plateforme d'apprentissage en ligne moderne développée avec React, TypeScript et Vite.
 
-Currently, two official plugins are available:
+## 🚀 Technologies utilisées
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** - Bibliothèque JavaScript pour les interfaces utilisateur
+- **TypeScript** - JavaScript avec typage statique
+- **Vite** - Outil de build rapide et moderne
+- **TailwindCSS** - Framework CSS utilitaire
+- **React Router** - Routage côté client
+- **Axios** - Client HTTP pour les appels API
+- **ESLint** - Linting du code
 
-## React Compiler
+## 📁 Structure du projet
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── components/          # Composants réutilisables
+│   ├── common/         # Composants communs
+│   ├── layout/         # Layouts (Header, Footer, etc.)
+│   └── ui/             # Composants UI de base
+├── pages/              # Pages de l'application
+│   ├── auth/           # Pages d'authentification
+│   └── course/         # Pages liées aux cours
+├── hooks/              # Hooks personnalisés
+├── context/            # Contextes React
+├── data/               # Données mockées
+├── types/              # Types TypeScript
+└── assets/             # Assets statiques
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠️ Installation et développement
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Prérequis
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js (version 18+)
+- npm ou yarn
+
+### Installation
+
+```bash
+# Installer les dépendances
+npm install
+
+# Démarrer le serveur de développement
+npm run dev
+
+# Construire pour la production
+npm run build
+
+# Prévisualiser la build
+npm run preview
+
+# Linter le code
+npm run lint
 ```
+
+## 📋 Fonctionnalités
+
+- ✅ Authentification utilisateur (login/register)
+- ✅ Affichage des cours et détails
+- ✅ Parcours d'apprentissage
+- ✅ Page mentors
+- ✅ Page à propos
+- ✅ Page contact avec formulaire
+- ✅ Layout responsive
+- ✅ Gestion d'état avec Context API
+- ✅ Hooks personnalisés
+
+## 🔧 Scripts disponibles
+
+- `npm run dev` - Démarre le serveur de développement
+- `npm run build` - Construit l'application pour la production
+- `npm run preview` - Prévisualise la build de production
+- `npm run lint` - Vérifie le code avec ESLint
+
+## 🌐 API
+
+L'application communique avec le backend Laravel via des appels API REST. Les endpoints sont configurés dans les services appropriés.
+
+## 📝 Notes de développement
+
+- Les données mockées sont utilisées pour le développement
+- L'authentification est simulée avec localStorage
+- Le styling utilise TailwindCSS avec des classes utilitaires
+- Les types TypeScript sont définis dans le dossier `types/`
+
+## 🤝 Contribution
+
+1. Fork le projet
+2. Créez votre branche de fonctionnalité (`git checkout -b feature/AmazingFeature`)
+3. Committez vos changements (`git commit -m 'Add some AmazingFeature'`)
+4. Pushez vers la branche (`git push origin feature/AmazingFeature`)
+5. Ouvrez une Pull Request

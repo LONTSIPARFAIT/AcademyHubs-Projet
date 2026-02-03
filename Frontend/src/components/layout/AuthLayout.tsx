@@ -15,7 +15,6 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({
   title,
   subtitle,
   imageSideContent,
-  showSocialButtons = true,
   showTerms = true,
 }) => {
   return (

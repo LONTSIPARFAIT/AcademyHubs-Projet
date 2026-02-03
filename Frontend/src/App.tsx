@@ -6,6 +6,10 @@ import CoursesPage from "./pages/course/CoursesPage.tsx";
 import PublicLayout from "./components/layout/PublicLayout";
 import './App.css';
 import CourseDetail from "./pages/course/CourseDetail.tsx";
+import PathsPage from "./pages/PathsPage.tsx";
+import MentorsPage from "./pages/MentorsPage.tsx";
+import AboutPage from "./pages/AboutPage.tsx";
+import ContactPage from "./pages/ContactPage.tsx";
 
 function App() {
   return (
@@ -16,10 +20,10 @@ function App() {
           {/* Ajoutez vos autres routes ici */}
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/courses/:id" element={<CourseDetail />} />
-          <Route path="/paths" element={<div className="p-8">Page Parcours - À développer</div>} />
-          <Route path="/mentors" element={<div className="p-8">Page Mentors - À développer</div>} />
-          <Route path="/about" element={<div className="p-8">Page À propos - À développer</div>} />
-          <Route path="/contact" element={<div className="p-8">Page Contact - À développer</div>} />
+          <Route path="/paths" element={<PathsPage />} />
+          <Route path="/mentors" element={<MentorsPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
         </Route>
 
         <Route path="/login" element={<Login />} />
