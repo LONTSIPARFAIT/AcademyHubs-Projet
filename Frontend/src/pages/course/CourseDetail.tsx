@@ -2,16 +2,18 @@ import { useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useCourseDetail } from '../../hooks/useCourseDetail';
 import { mockCourses } from '../../data';
-import type { Instructor } from '../../types/course';
 
 const CourseDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
-  const [progress, setProgress] = useState(0);
+  const [progress] = useState(0);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   const { course, loading, enrolled, isLoggedIn, toggleEnrollment } = useCourseDetail(id);
+
+  // Extraire l'instructor si c'est un objet
+  const instructor = course?.instructor && typeof course.instructor !== 'string' ? course.instructor : null;
 
   const handleEnroll = () => {
     if (!isLoggedIn) {
@@ -432,10 +434,8 @@ const CourseDetail = () => {
             )}
             
             {/* Instructor Tab */}
-            {activeTab === 'instructor' && course.instructor && typeof course.instructor !== 'string' && (
-              (() => {
-                const instructor = course.instructor as Instructor;
-                return (
+            {activeTab === 'instructor' && instructor && (
+              <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
                 <div className="flex items-start gap-6 mb-6">
                   <img
                     src={instructor.avatar}
@@ -482,12 +482,10 @@ const CourseDetail = () => {
                   </div>
                 </div>
               </div>
-              );
-              })()
             )}
             
             {/* Instructor Tab - Fallback for string instructor */}
-            {activeTab === 'instructor' && course.instructor && typeof course.instructor === 'string' && (
+            {activeTab === 'instructor' && course?.instructor && typeof course.instructor === 'string' && (
               <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
                 <div className="text-center py-8">
                   <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-gray-100">À propos de l'instructeur</h3>
