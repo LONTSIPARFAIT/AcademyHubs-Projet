@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useCourseDetail } from '../../hooks/useCourseDetail';
 import { mockCourses } from '../../data';
+import type { Instructor } from '../../types/course';
 
 const CourseDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
-  const [completedLessons, setCompletedLessons] = useState<number[]>([]);
+  const [progress, setProgress] = useState(0);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   const { course, loading, enrolled, isLoggedIn, toggleEnrollment } = useCourseDetail(id);
@@ -432,21 +433,23 @@ const CourseDetail = () => {
             
             {/* Instructor Tab */}
             {activeTab === 'instructor' && course.instructor && typeof course.instructor !== 'string' && (
-              <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+              (() => {
+                const instructor = course.instructor as Instructor;
+                return (
                 <div className="flex items-start gap-6 mb-6">
                   <img
-                    src={course.instructor.avatar}
-                    alt={course.instructor.name}
+                    src={instructor.avatar}
+                    alt={instructor.name}
                     className="w-24 h-24 rounded-full object-cover"
                   />
                   <div>
-                    <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-gray-100">{course.instructor.name}</h2>
+                    <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-gray-100">{instructor.name}</h2>
                     <div className="flex items-center gap-4 mb-3">
                       <div className="flex items-center">
                         {[...Array(5)].map((_, i) => (
                           <svg
                             key={i}
-                            className={`w-5 h-5 ${i < Math.floor(course.instructor.rating) ? 'text-yellow-400' : 'text-gray-300 dark:text-gray-500'}`}
+                            className={`w-5 h-5 ${i < Math.floor(instructor.rating) ? 'text-yellow-400' : 'text-gray-300 dark:text-gray-500'}`}
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
@@ -455,11 +458,11 @@ const CourseDetail = () => {
                         ))}
                       </div>
                       <span className="text-gray-600 dark:text-gray-400">
-                        {course.instructor.rating} Note d'instructeur
+                        {instructor.rating} Note d'instructeur
                       </span>
                     </div>
                     <div className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                      {course.instructor.bio}
+                      {instructor.bio}
                     </div>
                   </div>
                 </div>
@@ -467,18 +470,20 @@ const CourseDetail = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                     <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mb-1">
-                      {course.instructor.courses}
+                      {instructor.courses}
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">Cours</div>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                     <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-1">
-                      {Math.floor(course.instructor.rating * 20)}%
+                      {Math.floor(instructor.rating * 20)}%
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">Satisfaction</div>
                   </div>
                 </div>
               </div>
+              );
+              })()
             )}
             
             {/* Instructor Tab - Fallback for string instructor */}
