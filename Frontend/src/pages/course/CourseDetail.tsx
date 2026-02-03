@@ -11,15 +11,6 @@ const CourseDetail = () => {
 
   const { course, loading, enrolled, isLoggedIn, toggleEnrollment } = useCourseDetail(id);
 
-  // Gestion des leçons complétées
-  const handleToggleLesson = (lessonId: number) => {
-    if (completedLessons.includes(lessonId)) {
-      setCompletedLessons(completedLessons.filter(id => id !== lessonId));
-    } else {
-      setCompletedLessons([...completedLessons, lessonId]);
-    }
-  };
-
   const handleEnroll = () => {
     if (!isLoggedIn) {
       setShowLoginModal(true);
