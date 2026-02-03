@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { mockCourses } from '../data';
+import { Select } from '../components/ui';
 
 const Welcome = () => {
   const [stats, setStats] = useState({
@@ -39,6 +40,17 @@ const Welcome = () => {
 
   // Niveaux disponibles
   const niveaux = ['Tous', 'Débutant', 'Intermédiaire', 'Avancé'];
+
+  // Options pour les selects
+  const formationOptions = formations.map(formation => ({
+    value: formation,
+    label: formation
+  }));
+
+  const niveauOptions = niveaux.map(niveau => ({
+    value: niveau,
+    label: niveau
+  }));
 
   // Filtrer les cours depuis mockCourses
   const filteredCourses = mockCourses.filter(course => {
@@ -177,51 +189,25 @@ const Welcome = () => {
 
                 <div className="flex flex-col sm:flex-row gap-4">
                   <div className="w-full sm:w-auto">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Formation
-                    </label>
-                    <div className="relative">
-                      <select
-                        value={selectedFormation}
-                        onChange={(e) => setSelectedFormation(e.target.value)}
-                        className="w-full sm:w-64 px-4 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent appearance-none cursor-pointer"
-                      >
-                        {formations.map((formation, index) => (
-                          <option key={index} value={formation}>
-                            {formation}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                        <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </div>
-                    </div>
+                    <Select
+                      label="Formation"
+                      name="formation"
+                      value={selectedFormation}
+                      onChange={(e) => setSelectedFormation(e.target.value)}
+                      options={formationOptions}
+                      className="w-full sm:w-64"
+                    />
                   </div>
 
                   <div className="w-full sm:w-auto">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Niveau
-                    </label>
-                    <div className="relative">
-                      <select
-                        value={selectedLevel}
-                        onChange={(e) => setSelectedLevel(e.target.value)}
-                        className="w-full sm:w-48 px-4 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent appearance-none cursor-pointer"
-                      >
-                        {niveaux.map((niveau, index) => (
-                          <option key={index} value={niveau}>
-                            {niveau}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                        <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </div>
-                    </div>
+                    <Select
+                      label="Niveau"
+                      name="level"
+                      value={selectedLevel}
+                      onChange={(e) => setSelectedLevel(e.target.value)}
+                      options={niveauOptions}
+                      className="w-full sm:w-48"
+                    />
                   </div>
                 </div>
               </div>

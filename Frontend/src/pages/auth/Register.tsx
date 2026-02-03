@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthLayout from '../../components/layout/AuthLayout';
+import { Input, Button, Checkbox, Card, CardContent } from '../../components/ui';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -191,73 +192,43 @@ const Register = () => {
 
           {/* Nom et prénom */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-            <div>
-              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Prénom
-              </label>
-              <input
-                id="firstName"
-                name="firstName"
-                type="text"
-                autoComplete="given-name"
-                required
-                value={formData.firstName}
-                onChange={handleChange}
-                className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border ${
-                  errors.firstName ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                } rounded-xl text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-all duration-300`}
-                placeholder="Jean"
-              />
-              {errors.firstName && (
-                <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.firstName}</p>
-              )}
-            </div>
+            <Input
+              label="Prénom"
+              name="firstName"
+              type="text"
+              autoComplete="given-name"
+              value={formData.firstName}
+              onChange={handleChange}
+              placeholder="Jean"
+              error={errors.firstName}
+              required
+            />
 
-            <div>
-              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Nom
-              </label>
-              <input
-                id="lastName"
-                name="lastName"
-                type="text"
-                autoComplete="family-name"
-                required
-                value={formData.lastName}
-                onChange={handleChange}
-                className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border ${
-                  errors.lastName ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                } rounded-xl text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-all duration-300`}
-                placeholder="Dupont"
-              />
-              {errors.lastName && (
-                <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.lastName}</p>
-              )}
-            </div>
+            <Input
+              label="Nom"
+              name="lastName"
+              type="text"
+              autoComplete="family-name"
+              value={formData.lastName}
+              onChange={handleChange}
+              placeholder="Dupont"
+              error={errors.lastName}
+              required
+            />
           </div>
 
           {/* Email */}
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Adresse email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border ${
-                errors.email ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-              } rounded-xl text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-all duration-300`}
-              placeholder="exemple@email.com"
-            />
-            {errors.email && (
-              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.email}</p>
-            )}
-          </div>
+          <Input
+            label="Adresse email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="exemple@email.com"
+            error={errors.email}
+            required
+          />
 
           {/* Mot de passe */}
           <div>
@@ -359,39 +330,27 @@ const Register = () => {
 
           {/* Checkboxes */}
           <div className="space-y-3 sm:space-y-4">
-            <div className="flex items-start">
-              <input
-                id="acceptTerms"
-                name="acceptTerms"
-                type="checkbox"
-                checked={formData.acceptTerms}
-                onChange={handleChange}
-                className="h-4 w-4 mt-1 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
-              />
-              <label htmlFor="acceptTerms" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                J'accepte les{' '}
-                <Link to="/terms" className="text-blue-600 dark:text-blue-400 hover:underline">conditions d'utilisation</Link>
-                {' '}et la{' '}
-                <Link to="/privacy" className="text-blue-600 dark:text-blue-400 hover:underline">politique de confidentialité</Link>
-              </label>
-            </div>
-            {errors.acceptTerms && (
-              <p className="ml-6 text-sm text-red-600 dark:text-red-400">{errors.acceptTerms}</p>
-            )}
+            <Checkbox
+              label={
+                <>
+                  J'accepte les{' '}
+                  <Link to="/terms" className="text-blue-600 dark:text-blue-400 hover:underline">conditions d'utilisation</Link>
+                  {' '}et la{' '}
+                  <Link to="/privacy" className="text-blue-600 dark:text-blue-400 hover:underline">politique de confidentialité</Link>
+                </>
+              }
+              name="acceptTerms"
+              checked={formData.acceptTerms}
+              onChange={handleChange}
+              error={errors.acceptTerms}
+            />
 
-            <div className="flex items-start">
-              <input
-                id="newsletter"
-                name="newsletter"
-                type="checkbox"
-                checked={formData.newsletter}
-                onChange={handleChange}
-                className="h-4 w-4 mt-1 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
-              />
-              <label htmlFor="newsletter" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                Je souhaite recevoir des newsletters, offres spéciales et mises à jour par email
-              </label>
-            </div>
+            <Checkbox
+              label="Je souhaite recevoir des newsletters, offres spéciales et mises à jour par email"
+              name="newsletter"
+              checked={formData.newsletter}
+              onChange={handleChange}
+            />
           </div>
 
           {/* Bouton d'inscription */}

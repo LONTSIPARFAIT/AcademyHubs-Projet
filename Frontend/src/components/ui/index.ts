@@ -13,6 +13,3 @@ export { default as Card, CardHeader, CardContent, CardFooter, CardTitle, CardDe
 
 // Composants d'interface
 export { default as Modal } from './Modal';
-
-// Anciens composants (pour compatibilité)
-export { default as InputField } from './InputField';
