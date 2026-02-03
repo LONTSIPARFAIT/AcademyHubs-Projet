@@ -1,6 +1,7 @@
 // pages/course/CoursesPage.tsx
 import React, { useState } from 'react';
 import type { Course } from '../../types/course';
+import { Select } from '../../components/ui';
 import {
   mockCourses,
   mockEnrolledStats,
@@ -23,6 +24,12 @@ interface FilterSectionState {
   level: boolean;
   duration: boolean;
 }
+
+// Options pour le tri (définies globalement)
+const sortOptions = mockSortOptions.map(option => ({
+  value: option.value,
+  label: option.label
+}));
 
 interface CourseHeaderProps {
   selectedCategory: string;
@@ -50,17 +57,12 @@ const CourseHeader: React.FC<CourseHeaderProps> = ({
     <div className="flex items-center gap-4">
       <div className="flex items-center gap-2">
         <span className="text-sm text-gray-600 dark:text-gray-400">Trier par :</span>
-        <select
+        <Select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
-          className="px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
-        >
-          {mockSortOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+          options={sortOptions}
+          className="w-40"
+        />
       </div>
 
       <div className="hidden sm:flex items-center gap-2">

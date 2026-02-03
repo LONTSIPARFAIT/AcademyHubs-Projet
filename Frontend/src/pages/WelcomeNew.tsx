@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {
   mockCourses,
   mockWelcomeStats,
-  mockCategories as welcomeCategories,
+  mockCategories,
   mockTestimonials,
   mockFeatures,
   mockFormations,
@@ -48,7 +48,7 @@ const Welcome = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
       <main className="flex-1">
         <HeroSection stats={stats} />
-        <CategoriesSection categories={welcomeCategories} onCategoryClick={handleCategoryClick} />
+        <CategoriesSection categories={mockCategories} onCategoryClick={handleCategoryClick} />
         <TestimonialsSection testimonials={mockTestimonials} />
         <FeaturesSection features={mockFeatures} />
         <CoursesPreviewSection
