@@ -1,23 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useCourseDetail } from '../../hooks/useCourseDetail';
+import { CourseOverview } from '../../components/course/CourseOverview';
+import { CourseSyllabus } from '../../components/course/CourseSyllabus';
+import { CourseInstructor } from '../../components/course/CourseInstructor';
+import { CourseReviews } from '../../components/course/CourseReviews';
 
 const CourseDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [course, setCourse] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
-  const [enrolled, setEnrolled] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [completedLessons, setCompletedLessons] = useState([]);
+  const [completedLessons, setCompletedLessons] = useState<number[]>([]);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Vérifier si l'utilisateur est connecté
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
-    setIsLoggedIn(!!user);
-  }, []);
+  const { course, loading, enrolled, isLoggedIn, toggleEnrollment } = useCourseDetail(id);
 
   // Données des cours
   const allCourses = [
