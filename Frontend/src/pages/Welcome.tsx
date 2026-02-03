@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Welcome = () => {
-  const navigate = useNavigate();
   const [stats, setStats] = useState({
     activeStudents: 1200,
     courses: 45,
@@ -232,42 +231,6 @@ const Welcome = () => {
     }
   ];
 
-  // Cours en vedette
-  const featuredCourses = [
-    {
-      title: 'Apprendre les bases du HTML5',
-      description: 'Apprenez la structure et les bases du web avec HTML5',
-      chapters: 8,
-      hours: 6,
-      icon: '📄',
-      category: 'Développement Web'
-    },
-    {
-      title: 'Apprendre les bases du JavaScript',
-      description: 'Ajoutez de l\'interactivité à vos sites avec JavaScript',
-      chapters: 12,
-      hours: 12,
-      icon: '⚡',
-      category: 'Développement Web'
-    },
-    {
-      title: 'Créer avec Tailwind CSS',
-      description: 'Créez des designs modernes et réactifs avec Tailwind CSS',
-      chapters: 10,
-      hours: 10,
-      icon: '🎨',
-      category: 'Développement Web'
-    },
-    {
-      title: 'Apprendre les bases du Vue.js',
-      description: 'Créez des interfaces utilisateur dynamiques avec Vue.js',
-      chapters: 36,
-      hours: 15,
-      icon: '🔄',
-      category: 'Développement Web'
-    }
-  ];
-
   // Témoignages
   const testimonials = [
     {
@@ -328,10 +291,10 @@ const Welcome = () => {
                 key={i}
                 className="absolute w-1 h-1 bg-white/20 rounded-full animate-float"
                 style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 5}s`,
-                  animationDuration: `${10 + Math.random() * 10}s`
+                  left: `${(i * 23) % 100}%`,
+                  top: `${(i * 31) % 100}%`,
+                  animationDelay: `${(i * 0.5) % 5}s`,
+                  animationDuration: `${10 + (i * 0.5) % 10}s`
                 }}
               />
             ))}

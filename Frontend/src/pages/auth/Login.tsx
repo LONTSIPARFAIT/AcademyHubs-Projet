@@ -22,7 +22,7 @@ const Login = () => {
       await new Promise(resolve => setTimeout(resolve, 1000));
       console.log('Connexion avec:', formData);
       navigate('/dashboard');
-    } catch (err) {
+    } catch {
       setError('Email ou mot de passe incorrect');
     } finally {
       setIsLoading(false);
