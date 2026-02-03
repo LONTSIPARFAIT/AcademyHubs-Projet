@@ -24,23 +24,17 @@ const CourseDetail = () => {
       setCompletedLessons([...completedLessons, lessonId]);
     }
   };
-    
-    setLoading(false);
-  }, [id]);
 
   const handleEnroll = () => {
     if (!isLoggedIn) {
       setShowLoginModal(true);
       return;
     }
-    
+
+    toggleEnrollment();
     if (!enrolled) {
-      const enrolledCourses = JSON.parse(localStorage.getItem('enrolledCourses') || '[]');
-      enrolledCourses.push(parseInt(id));
-      localStorage.setItem('enrolledCourses', JSON.stringify(enrolledCourses));
-      setEnrolled(true);
+      navigate(`/learn/${id}/lesson/1`);
     }
-    navigate(`/learn/${id}/lesson/1`);
   };
 
   const handleLogin = () => {

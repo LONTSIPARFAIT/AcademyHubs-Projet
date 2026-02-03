@@ -1,5 +1,99 @@
 import type { Course } from '../types';
 
+// Instructeurs mockés
+const instructors = {
+  jeanDupont: {
+    id: 1,
+    name: 'Jean Dupont',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+    bio: 'Développeur fullstack avec 8 ans d\'expérience, spécialisé dans les technologies web modernes.',
+    rating: 4.9,
+    courses: 5,
+    students: 1200,
+    experience: '8 ans'
+  },
+  marieKamga: {
+    id: 2,
+    name: 'Marie Kamga',
+    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=200&q=80',
+    bio: 'Développeuse backend spécialisée en PHP/Laravel. Fondatrice d\'une startup tech à Douala.',
+    rating: 4.8,
+    courses: 3,
+    students: 850,
+    experience: '6 ans'
+  },
+  samuelNkono: {
+    id: 3,
+    name: 'Samuel Nkono',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80',
+    bio: 'Expert en data science et machine learning. Consultant pour entreprises internationales.',
+    rating: 4.7,
+    courses: 4,
+    students: 650,
+    experience: '7 ans'
+  },
+  sarahMbala: {
+    id: 4,
+    name: 'Sarah Mbala',
+    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80',
+    bio: 'Designer UX/UI passionnée. Aide les entreprises à créer des expériences utilisateur exceptionnelles.',
+    rating: 4.9,
+    courses: 6,
+    students: 950,
+    experience: '5 ans'
+  },
+  paulOwono: {
+    id: 5,
+    name: 'Paul Owono',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+    bio: 'Développeur mobile spécialisé en React Native et Flutter.',
+    rating: 4.6,
+    courses: 3,
+    students: 480,
+    experience: '4 ans'
+  },
+  lisaNdifor: {
+    id: 6,
+    name: 'Lisa Ndifor',
+    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
+    bio: 'Experte en cybersécurité et éthique du numérique.',
+    rating: 4.8,
+    courses: 2,
+    students: 320,
+    experience: '9 ans'
+  },
+  davidNkem: {
+    id: 7,
+    name: 'David Nkem',
+    avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&q=80',
+    bio: 'Architecte logiciel et coach technique. Spécialisé dans les architectures scalables.',
+    rating: 4.9,
+    courses: 7,
+    students: 1100,
+    experience: '10 ans'
+  },
+  pierreMbarga: {
+    id: 8,
+    name: 'Pierre Mbarga',
+    avatar: 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&w=200&q=80',
+    bio: 'Entrepreneur et développeur. Fondateur de plusieurs startups technologiques.',
+    rating: 4.7,
+    courses: 4,
+    students: 780,
+    experience: '8 ans'
+  },
+  claraFotso: {
+    id: 9,
+    name: 'Clara Fotso',
+    avatar: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=200&q=80',
+    bio: 'Spécialiste en marketing digital et growth hacking.',
+    rating: 4.5,
+    courses: 3,
+    students: 590,
+    experience: '6 ans'
+  }
+};
+
 export const mockCourses: Course[] = [
   {
     id: 1,
@@ -11,7 +105,8 @@ export const mockCourses: Course[] = [
     lessons: 45,
     students: 1200,
     rating: 4.8,
-    instructor: 'Jean Dupont',
+    reviews: 342,
+    instructor: instructors.jeanDupont,
     price: 0,
     discountedPrice: 0,
     img: 'https://images.unsplash.com/photo-1581287053822-fd7bf4f4d0f5?auto=format&fit=crop&w=800&q=80',
@@ -30,7 +125,8 @@ export const mockCourses: Course[] = [
     lessons: 38,
     students: 850,
     rating: 4.9,
-    instructor: 'Marie Kamga',
+    reviews: 245,
+    instructor: instructors.marieKamga,
     price: 0,
     discountedPrice: 0,
     img: 'https://images.unsplash.com/photo-1555066931-bf19c0fd1085?auto=format&fit=crop&w=800&q=80',
