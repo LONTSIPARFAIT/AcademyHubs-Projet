@@ -1,5 +1,13 @@
 // src/data/index.ts
 export * from './mockCourses';
-export * from './mockCategories';
+export { mockCategories as courseCategories } from './mockCategories';
 export * from './mockStats';
-export * from './mockWelcomeData';
+export * from './mockUsers';
+export {
+  mockWelcomeStats,
+  mockCategories as welcomeCategories,
+  mockTestimonials,
+  mockFeatures,
+  mockFormations,
+  mockNiveaux
+} from './mockWelcomeData';

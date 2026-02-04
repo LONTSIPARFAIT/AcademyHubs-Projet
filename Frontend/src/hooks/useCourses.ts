@@ -1,8 +1,8 @@
-import { mockCourses, mockCategories } from '../data';
+import { mockCourses, courseCategories } from '../data';
 
 export const useCourses = () => {
   const courses = mockCourses;
-  const categories = mockCategories;
+  const categories = courseCategories;
   const isLoading = false;
 
   const getCourseById = (id: number) => {

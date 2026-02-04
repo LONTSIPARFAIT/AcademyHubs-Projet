@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   mockCourses,
   mockWelcomeStats,
-  mockCategories as welcomeCategories,
+  welcomeCategories,
   mockTestimonials,
   mockFeatures,
   mockFormations,
@@ -16,18 +16,18 @@ import CoursesPreviewSection from '../components/common/CoursesPreviewSection';
 import CTASection from '../components/common/CTASection';
 
 const Welcome = () => {
-  const [stats, setStats] = useState(mockWelcomeStats);
+  const stats = mockWelcomeStats;
 
-  // Animation pour les statistiques
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setStats(prev => ({
-        ...prev,
-        activeStudents: prev.activeStudents + Math.floor(Math.random() * 10)
-      }));
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+  // Supprimé : Animation inutile pour les statistiques mockées
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setStats(prev => ({
+  //       ...prev,
+  //       activeStudents: prev.activeStudents + Math.floor(Math.random() * 10)
+  //     }));
+  //   }, 5000);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   // États pour les filtres
   const [selectedFormation, setSelectedFormation] = useState('Toutes');
