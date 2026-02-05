@@ -44,7 +44,7 @@ const Welcome = () => {
   // Réinitialisation des filtres
   const resetFilters = () => {
     setSelectedFormation('Toutes');
-    setSelectedLevel('Tou');
+    setSelectedLevel('Tous');
   };
 
   return (
