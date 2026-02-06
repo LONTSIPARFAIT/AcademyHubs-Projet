@@ -28,7 +28,7 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({ categories, onCat
           </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 bg-red gap-4 md:gap-6">
           {categories.map((category, i) => (
             <div
               key={i}
