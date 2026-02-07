@@ -11,13 +11,15 @@ interface Category {
 interface CategoriesSectionProps {
   categories: Category[];
   onCategoryClick: (categoryName: string) => void;
+  isLoading?: boolean;
 }
 
 const CategoriesSection: React.FC<CategoriesSectionProps> = ({ 
   categories, 
-  onCategoryClick 
+  onCategoryClick,
+  isLoading = false
 }) => {
-  const getCourseText = (count: number) => {
+  const getCourseText = (count: numbe) => {
     return `${count} cours${count > 1 ? 's' : ''}`;
   };
 
@@ -51,78 +53,84 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({
         </div>
 
         {/* Categories Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-          {categories.map((category, index) => (
-            <button
-              key={category.name}
-              onClick={() => onCategoryClick(category.name)}
-              className="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 text-left 
-                hover:shadow-2xl transition-all duration-300 hover:-translate-y-1
-                border border-gray-100 dark:border-gray-700
-                focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
-              aria-label={`Explorer les formations ${category.name}`}
-            >
-              {/* Background Effect */}
-              <div className={`absolute inset-0 ${category.bgColor} rounded-2xl opacity-0 
-                group-hover:opacity-10 transition-opacity duration-300`} 
-              />
-              
-              {/* Icon Container */}
-              <div className="relative mb-4">
-                <div className={`w-14 h-14 rounded-xl ${category.bgColor} flex items-center 
-                  justify-center mb-3 transition-transform duration-300 group-hover:scale-110`}
-                >
-                  <span className={`text-2xl ${category.color}`}>
-                    {category.icon}
-                  </span>
+        {isLoading ? (
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+            {categories.map((category, index) => (
+              <button
+                key={category.name}
+                onClick={() => onCategoryClick(category.name)}
+                className="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 text-left 
+                  hover:shadow-2xl transition-all duration-300 hover:-translate-y-1
+                  border border-gray-100 dark:border-gray-700
+                  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                aria-label={`Explorer les formations ${category.name}`}
+              >
+                {/* Background Effect */}
+                <div className={`absolute inset-0 ${category.bgColor} rounded-2xl opacity-0 
+                  group-hover:opacity-10 transition-opacity duration-300`} 
+                />
+                
+                {/* Icon Container */}
+                <div className="relative mb-4">
+                  <div className={`w-14 h-14 rounded-xl ${category.bgColor} flex items-center 
+                    justify-center mb-3 transition-transform duration-300 group-hover:scale-110`}
+                  >
+                    <span className={`text-2xl ${category.color}`}>
+                      {category.icon}
+                    </span>
+                  </div>
+                  <div className="absolute -top-1 -right-1 w-6 h-6 bg-white dark:bg-gray-900 
+                    rounded-full border-2 border-gray-100 dark:border-gray-800 flex items-center 
+                    justify-center group-hover:animate-pulse">
+                    <span className="text-xs font-bold text-gray-600 dark:text-gray-400">
+                      {index + 1}
+                    </span>
+                  </div>
                 </div>
-                <div className="absolute -top-1 -right-1 w-6 h-6 bg-white dark:bg-gray-900 
-                  rounded-full border-2 border-gray-100 dark:border-gray-800 flex items-center 
-                  justify-center group-hover:animate-pulse">
-                  <span className="text-xs font-bold text-gray-600 dark:text-gray-400">
-                    {index + 1}
+
+                {/* Content */}
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 
+                  group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                  {category.name}
+                </h3>
+                
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  {getCourseText(category.courses)} disponibles
+                </p>
+
+                {/* Action Indicator */}
+                <div className="flex items-center text-indigo-600 dark:text-indigo-400">
+                  <span className="text-sm font-semibold mr-2">
+                    Découvrir
                   </span>
+                  <svg 
+                    className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={2} 
+                      d="M9 5l7 7-7 7" 
+                    />
+                  </svg>
                 </div>
-              </div>
 
-              {/* Content */}
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 
-                group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                {category.name}
-              </h3>
-              
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                {getCourseText(category.courses)} disponibles
-              </p>
-
-              {/* Action Indicator */}
-              <div className="flex items-center text-indigo-600 dark:text-indigo-400">
-                <span className="text-sm font-semibold mr-2">
-                  Découvrir
-                </span>
-                <svg 
-                  className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  stroke="currentColor"
-                >
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M9 5l7 7-7 7" 
-                  />
-                </svg>
-              </div>
-
-              {/* Hover Border Effect */}
-              <div className="absolute inset-0 rounded-2xl border-2 border-transparent 
-                group-hover:border-indigo-200 dark:group-hover:border-indigo-900 
-                transition-colors duration-300 pointer-events-none" 
-              />
-            </button>
-          ))}
-        </div>
+                {/* Hover Border Effect */}
+                <div className="absolute inset-0 rounded-2xl border-2 border-transparent 
+                  group-hover:border-indigo-200 dark:group-hover:border-indigo-900 
+                  transition-colors duration-300 pointer-events-none" 
+                />
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Footer */}
         <div className="text-center mt-12 md:mt-16">

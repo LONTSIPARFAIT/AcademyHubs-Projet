@@ -1,5 +1,6 @@
 // pages/course/CoursesPage.tsx
 import React, { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import type { Course } from '../../types/course';
 import { Select } from '../../components/ui';
 import {
@@ -83,8 +84,9 @@ const CourseHeader: React.FC<CourseHeaderProps> = ({
 );
 
 const CoursesPage = () => {
+  const [searchParams] = useSearchParams();
   // États pour les filtres
-  const [selectedCategory, setSelectedCategory] = useState<string>('Toutes');
+  const [selectedCategory, setSelectedCategory] = useState<string>(searchParams.get('category') || 'Toutes');
   const [selectedLevel, setSelectedLevel] = useState<string>('Tous');
   const [selectedDuration, setSelectedDuration] = useState<string>('Toutes');
   const [sortBy, setSortBy] = useState<string>('popularity');

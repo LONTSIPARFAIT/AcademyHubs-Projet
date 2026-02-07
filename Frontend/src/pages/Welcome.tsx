@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import HeroSection from '../components/common/HeroSection';
@@ -12,12 +13,11 @@ import {
   mockWelcomeStats,
   welcomeCategories,
   mockTestimonials,
-  mockFeatures,
-  mockFormations,
-  mockNiveaux
+  mockFeatures
 } from '../data';
 
 const Welcome = () => {
+  const navigate = useNavigate();
   // État pour les statistiques animées
   const [stats, setStats] = useState(mockWelcomeStats);
 
@@ -32,19 +32,9 @@ const Welcome = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // États pour les filtres des cours
-  const [selectedFormation, setSelectedFormation] = useState('Toutes');
-  const [selectedLevel, setSelectedLevel] = useState('Tous');
-
   // Gestionnaire pour les clics sur les catégories
   const handleCategoryClick = (categoryName: string) => {
-    setSelectedFormation(categoryName);
-  };
-
-  // Réinitialisation des filtres
-  const resetFilters = () => {
-    setSelectedFormation('Toutes');
-    setSelectedLevel('Tous');
+    navigate(`/courses?category=${encodeURIComponent(categoryName)}`);
   };
 
   return (
@@ -56,13 +46,13 @@ const Welcome = () => {
         <CategoriesSection categories={welcomeCategories} onCategoryClick={handleCategoryClick} />
         <CoursesPreviewSection
           courses={mockCourses}
-          selectedFormation={selectedFormation}
-          selectedLevel={selectedLevel}
-          formations={mockFormations}
-          niveaux={mockNiveaux}
-          onFormationChange={setSelectedFormation}
-          onLevelChange={setSelectedLevel}
-          onResetFilters={resetFilters}
+          selectedFormation="Toutes"
+          selectedLevel="Tous"
+          formations={["Toutes"]}
+          niveaux={["Tous"]}
+          onFormationChange={() => {}}
+          onLevelChange={() => {}}
+          onResetFilters={() => {}}
         />
         <TestimonialsSection testimonials={mockTestimonials} />
         <FeaturesSection features={mockFeatures} />
