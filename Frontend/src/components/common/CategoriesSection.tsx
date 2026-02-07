@@ -19,7 +19,7 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({
   onCategoryClick,
   isLoading = false
 }) => {
-  const getCourseText = (count: numbe) => {
+  const getCourseText = (count: number) => {
     return `${count} cours${count > 1 ? 's' : ''}`;
   };
 
