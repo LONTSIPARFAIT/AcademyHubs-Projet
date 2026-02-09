@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -32,5 +33,39 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'Bearer',
         ], 201);
+    }
+
+    public function login (Request $request) {
+        // 1. Validation : on verifie que leimail et le pass ont ete envoyer
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        // 2. on verifie que le user existe et que le mot de passe est correct
+        $user = User::where('email', $request->email)->first();
+
+        // 3.Vérification : si le user n'existe pas ou que le mot de passe est incorrect 
+        // on utilise Hash::check pour comparer le pass saisir avec celui crypté en base
+        if(!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'message' => 'Invalid credentials'
+            ], 401); // 401 : Unauthorized
+        }
+
+        // 4. Succès : On crée un nouveau jeton (token)
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        // 5. on retourne une reponse a react
+        return response()->json([
+            'user' => $user,
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+        ], 201);
+    }
+
+    public function logout (Request $request) {
+        // 1. on supprime le token du user
+        $request->user()->tokens()->delete();
     }
 }
