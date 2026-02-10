@@ -10,6 +10,7 @@ import PathsPage from "./pages/PathsPage.tsx";
 import MentorsPage from "./pages/MentorsPage.tsx";
 import AboutPage from "./pages/AboutPage.tsx";
 import ContactPage from "./pages/ContactPage.tsx";
+import DashboardPage from "./pages/DashBoardPage.tsx";
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
         </Route>
 
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={'Welcome to the dasboard'} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/register" element={<Register />} />
         {/* <Route path="/register/success" element={<RegisterSuccess />} /> */}
         <Route path="*" element={

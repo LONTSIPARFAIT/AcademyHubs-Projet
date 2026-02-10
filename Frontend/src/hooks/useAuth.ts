@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import api from "../api/axios";
 
 export const useAuth = () => {
   const [user, setUser] = useState<any>(null);
@@ -16,7 +17,13 @@ export const useAuth = () => {
         // si le token est perimer ou absent on nettoie tous
         localStorage.removeItem("token");
         setUser(null);
+      } finally {
+        setLoading(false);
       }
     }
-  });
+
+    fetchUser();
+  }, []);
+
+  return { user, loading, isAuthenticated: !!user };
 }
