@@ -14,8 +14,9 @@ class Lesson extends Model
         'order',
     ];
 
-    // une leçon appartient à un cours
-    public function course(){
-        return $this->belongsTo(Course::class);
+    // Une leçon appartient à une section
+    public function section() {
+        return $this->belongsTo(Section::class);
     }
+
 }

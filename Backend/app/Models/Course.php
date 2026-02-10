@@ -26,10 +26,10 @@ class Course extends Model
         return $this->belongsTo(User::class, 'instructor_id');
     }
 
-    // un cours a plusieurs leçons
-    public function lessons(){
-        return $this->hasMany(Lesson::class)->orderBy('order', 'asc');
-    }
+    // un cours a plusieurs section
+    public function sections() {
+    return $this->hasMany(Section::class)->orderBy('order', 'asc');
+}
 
     // pour que Laravel utilise le slug au lieu de l'id dans les URLs
     public function getRouteKeyName(){

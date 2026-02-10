@@ -20,7 +20,12 @@ class CourseController extends Controller
 
     public function show(Course $course) {
         // on charge les cours avec ses lecons trier selon la categorie
-        $course->load(['category', 'instructor', 'lessons']);
-        return response()->json($course);
+        // $course->load(['category', 'instructor', 'lessons']);
+        // return response()->json($course);
+        return response()->json($course->load([
+            'category', 
+            'instructor', 
+            'sections.lessons'
+        ]));
     }
 }
