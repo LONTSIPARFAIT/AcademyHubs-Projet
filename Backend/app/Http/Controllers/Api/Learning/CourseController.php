@@ -17,4 +17,6 @@ class CourseController extends Controller
         // on retourne les cours a react
         return response()->json($courses);
     }
+
+    
 }

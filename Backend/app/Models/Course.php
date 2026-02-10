@@ -27,9 +27,9 @@ class Course extends Model
     }
 
     // un cours a plusieurs leçons
-    // public function lessons(){
-    //     return $this->hasMany(Lesson::class);
-    // }
+    public function lessons(){
+        return $this->hasMany(Lesson::class)->orderBy('order', 'asc');
+    }
 
     // pour que Laravel utilise le slug au lieu de l'id dans les URLs
     public function getRouteKeyName(){
