@@ -10,24 +10,28 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
    public function register(Request $request) {
-    $request->validated([
+    $request->validate([
         "name" => "required|string",
-        "eamil" => "required|email|unique:user",
-        "password" => "required|max:6",
+        "email" => "required|email|unique:users",
+        "password" => "required|min:6",
     ]);
 
-    $users = User::create([
-        "name" => $request["name"],
-        "email" => $request["email"],
-        "password" => bcrypt($request['password']),
+    $user = User::create([
+        "name" => $request->name,
+        "email" => $request->email,
+        "password" => bcrypt($request->password),
     ]);
 
-    $token = $users->createToken('auth_token')->plainTextToken;
+    $token = $user->createToken('auth_token')->plainTextToken;
 
     return response()->json([
-        'users' => $users,
+        'user' => $user,
         'auth_token' => $token,
         'token_type' => 'Bearer',
-    ],201);
+    ], 201);
+   }
+
+   public function login(Request $request){
+    
    }
 }
