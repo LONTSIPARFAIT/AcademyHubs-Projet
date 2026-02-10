@@ -87,7 +87,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
       {/* Image du cours */}
       <div className="relative h-40 overflow-hidden">
         <img
-          src={course.img}
+          src={course.img ?? course.thumbnail ?? '/assets/course-fallback.png'}
           alt={course.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
@@ -124,16 +124,16 @@ const CourseCard: React.FC<CourseCardProps> = ({
         {/* Catégorie */}
         <div className="flex items-center justify-between mb-3">
           <span className="text-sm text-gray-500 dark:text-gray-400">
-            {course.category}
+            {course.category?.name ?? ''}
           </span>
           <div className="flex items-center gap-1">
-            {renderStars(course.rating)}
+            {renderStars(course.rating ?? 0)}
           </div>
         </div>
 
         {/* Titre */}
         <h3 className="text-lg font-bold mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2">
-          <Link to={`/courses/${course.id}`} className="hover:no-underline">
+          <Link to={`/courses/${course.slug}`} className="hover:no-underline">
             {course.title}
           </Link>
         </h3>
@@ -145,7 +145,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
 
         {/* Tags */}
         <div className="flex flex-wrap gap-1 mb-4">
-          {course.tags.slice(0, 3).map((tag, index) => (
+          {(course.tags ?? []).slice(0, 3).map((tag, index) => (
             <span
               key={index}
               className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full"
@@ -153,9 +153,9 @@ const CourseCard: React.FC<CourseCardProps> = ({
               {tag}
             </span>
           ))}
-          {course.tags.length > 3 && (
+          {(course.tags ?? []).length > 3 && (
             <span className="px-2 py-1 text-gray-500 dark:text-gray-400 text-xs">
-              +{course.tags.length - 3}
+              +{(course.tags ?? []).length - 3}
             </span>
           )}
         </div>
@@ -166,13 +166,13 @@ const CourseCard: React.FC<CourseCardProps> = ({
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span>{course.duration}</span>
+            <span>{course.duration ?? '-'}</span>
           </div>
           <div className="flex items-center gap-2">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
-            <span>{course.lessons} leçons</span>
+            <span>{(course.lessons?.length ?? 0)} leçons</span>
           </div>
         </div>
 
@@ -184,16 +184,16 @@ const CourseCard: React.FC<CourseCardProps> = ({
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center">
               <span className="text-indigo-600 dark:text-indigo-400 font-bold text-xs">
-                {getInstructorInitials(course.instructor)}
+                  {getInstructorInitials(course.instructor)}
               </span>
             </div>
-            <span className="text-xs text-gray-600 dark:text-gray-400 truncate max-w-[100px]">
-              {typeof course.instructor === 'string' ? course.instructor : course.instructor.name}
-            </span>
+              <span className="text-xs text-gray-600 dark:text-gray-400 truncate max-w-[100px]">
+                {typeof course.instructor === 'string' ? course.instructor : course.instructor?.name}
+              </span>
           </div>
           <div className="text-right">
             <div className="text-xs text-gray-500">
-              {course.students.toLocaleString()} étudiants
+                {(course.students ?? 0).toLocaleString()} étudiants
             </div>
           </div>
         </div>
@@ -201,7 +201,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
         {/* Bouton d'action */}
         <div className="mt-4">
           <Link
-            to={`/courses/${course.id}`}
+            to={`/courses/${course.slug}`}
             className="block w-full text-center bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2.5 rounded-lg font-medium hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 hover:no-underline"
           >
             {course.enrolled ? 'Continuer le cours' : 'Démarrer le cours'}

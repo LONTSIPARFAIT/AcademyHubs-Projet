@@ -1,5 +1,5 @@
 // pages/course/CoursesPage.tsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import type { Course } from '../../types/course';
 import { Select } from '../../components/ui';
@@ -18,6 +18,7 @@ import Pagination from '../../components/common/Pagination';
 import NoResults from '../../components/common/NoResults';
 import Recommendations from '../../components/common/Recommendations';
 import CTASection from '../../components/common/CTASection';
+import api from '../../api/axios';
 
 // Définir localement FilterSectionState
 interface FilterSectionState {
@@ -86,6 +87,9 @@ const CourseHeader: React.FC<CourseHeaderProps> = ({
 const CoursesPage = () => {
   const [searchParams] = useSearchParams();
   // États pour les filtres
+
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [selectedCategory, setSelectedCategory] = useState<string>(searchParams.get('category') || 'Toutes');
   const [selectedLevel, setSelectedLevel] = useState<string>('Tous');
   const [selectedDuration, setSelectedDuration] = useState<string>('Toutes');
@@ -109,10 +113,25 @@ const CoursesPage = () => {
     }));
   };
 
+  // chargement des donne depuis laravel
+  useEffect(()=>{
+    const fetchCourses = async () => {
+      try {
+        const response = await api.get('/courses');
+        setCourses(response.data); // on met les donne ici
+      } catch (err) {
+        console.error("Erreur lors du charement", err);
+      } finally {
+        setLoading(false)
+      }
+    };
+    fetchCourses();
+  }, [])
+
   // Filtrer les cours
   const filterCourses = (): Course[] => {
-    return mockCourses.filter(course => {
-      const matchesCategory = selectedCategory === 'Toutes' || course.category === selectedCategory;
+    return courses.filter(course => {
+      const matchesCategory = selectedCategory === 'Toutes' || (course.category?.name ?? '') === selectedCategory;
       const matchesLevel = selectedLevel === 'Tous' || course.level === selectedLevel;
       const matchesDuration = selectedDuration === 'Toutes' || 
         (selectedDuration === 'Court (< 6 semaines)' && parseInt(course.duration) < 6) ||
@@ -121,7 +140,7 @@ const CoursesPage = () => {
       const matchesSearch = searchTerm === '' || 
         course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         course.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        course.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (course.tags ?? []).some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (typeof course.instructor === 'string' ? course.instructor : course.instructor.name).toLowerCase().includes(searchTerm.toLowerCase());
       
       return matchesCategory && matchesLevel && matchesDuration && matchesSearch;
@@ -172,51 +191,6 @@ const CoursesPage = () => {
     setCurrentPage(1);
   };
 
-  // Composant d'en-tête pour le contenu principal
-  // const CourseHeader = () => (
-  //   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-  //     <div>
-  //       <h2 className="text-2xl font-bold">
-  //         {selectedCategory === 'Toutes' ? 'Tous les cours' : selectedCategory}
-  //       </h2>
-  //       <p className="text-gray-600 dark:text-gray-400 mt-1">
-  //         {filteredAndSortedCourses.length} cours disponibles
-  //       </p>
-  //     </div>
-
-  //     <div className="flex items-center gap-4">
-  //       <div className="flex items-center gap-2">
-  //         <span className="text-sm text-gray-600 dark:text-gray-400">Trier par :</span>
-  //         <select
-  //           value={sortBy}
-  //           onChange={(e) => setSortBy(e.target.value)}
-  //           className="px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
-  //         >
-  //           {mockSortOptions.map((option) => (
-  //             <option key={option.value} value={option.value}>
-  //               {option.label}
-  //             </option>
-  //           ))}
-  //         </select>
-  //       </div>
-
-  //       <div className="hidden sm:flex items-center gap-2">
-  //         <span className="text-sm text-gray-600 dark:text-gray-400">Vue :</span>
-  //         <button className="p-2 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">
-  //           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-  //             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-  //           </svg>
-  //         </button>
-  //         <button className="p-2 text-indigo-600 dark:text-indigo-400">
-  //           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-  //             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-  //           </svg>
-  //         </button>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
       <main className="flex-1">
@@ -224,7 +198,7 @@ const CoursesPage = () => {
           searchTerm={searchTerm}
           handleSearch={handleSearch}
           enrolledStats={mockEnrolledStats}
-          allCourses={mockCourses}
+          allCourses={courses}
         />
 
         <section className="py-8 md:py-12">
@@ -277,7 +251,7 @@ const CoursesPage = () => {
 
                 {currentCourses.length > 0 && (
                   <Recommendations
-                    allCourses={mockCourses}
+                    allCourses={courses}
                     currentCourses={currentCourses}
                   />
                 )}

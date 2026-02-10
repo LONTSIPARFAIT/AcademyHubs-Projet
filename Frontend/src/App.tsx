@@ -20,15 +20,15 @@ function App() {
           <Route path="/" element={<Welcome />} />
           {/* Ajoutez vos autres routes ici */}
           <Route path="/courses" element={<CoursesPage />} />
-          <Route path="/courses/:id" element={<CourseDetail />} />
+          <Route path="/courses/:slug" element={<CourseDetail />} />
           <Route path="/paths" element={<PathsPage />} />
           <Route path="/mentors" element={<MentorsPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         </Route>
 
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/register" element={<Register />} />
         {/* <Route path="/register/success" element={<RegisterSuccess />} /> */}
         <Route path="*" element={
