@@ -6,16 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
-    protected $fillable = ['title','slug', 'description', 'category_id', 'instructor_id','is_published','thumbnail'];
+    protected $fillable = [
+        'title',
+        'slug', 
+        'description', 
+        'category_id', 
+        'instructor_id','
+        is_published',
+        'thumbnail'
+    ];
 
     // un cours appartient à une catégorie
     public function category(){
-        return $this->belongTo(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
     // un cours appartient à un instructeur
     public function instructor(){
-        return $this->belongTo(User::class, 'instructor_id');
+        return $this->belongsTo(User::class, 'instructor_id');
     }
 
     // un cours a plusieurs leçons
