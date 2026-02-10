@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthLayout from '../../components/layout/AuthLayout';
 import { Input, Button, Checkbox } from '../../components/ui';
+import api from '../../api/axios';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -20,15 +21,34 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log('Connexion avec:', formData);
+      //  1. on appele l'api de login de laravel avec les données du formulaire
+      const response = await api.post('/login', {
+        email: formData.email,
+        password: formData.password,
+      })
+
+      // 2. on recupere le token envoyer par laravel
+      // Attention : verifier si ton laravel revoie le token dans la clé "access_token"
+      const token = response.data.access_token;
+
+      // 3. on enregistre le token dans le navigateur pour les futurs appels d'api
+      localStorage.setItem('token', token);
+
+      // 4. on enregistre aussi les infos de l'utilisateur dans le navigateur
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+
+      console.log('Connexion Reussie !');
+
+      // on change la page seulement si le token est bien recu
       navigate('/dashboard');
-    } catch {
-      setError('Email ou mot de passe incorrect');
+      
+    } catch (error: any) {
+      // si laravel renvoie une erreur (ex: 401), on affiche le message d'erreur
+      setError(error.response?.data?.message ||'Email ou mot de passe incorrect');
     } finally {
       setIsLoading(false);
     }
-  };
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
