@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthLayout from '../../components/layout/AuthLayout';
 import { Input, Button, Checkbox } from '../../components/ui';
+import api from '../../api/axios';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -58,22 +59,42 @@ const Register = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
+
+    // 1. on garde la validation visuelle 
+    if (!validateForm()) return ;
 
     setIsLoading(true);
+    setErrors({});
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      console.log('Inscription avec:', formData);
-      navigate('/dashboard');
-    } catch {
-      setErrors({ submit: 'Une erreur est survenue. Veuillez réessayer.' });
-    } finally {
-      setIsLoading(false);
-    }
+      // 2. Appel reel a laravel
+      const response = await api.post("/register", {
+        name : `${formData.firstName} ${formData.lastName}`,
+        email : formData.email,
+        password : formData.password,
+      })
+
+      // 3. Stokage du token dans le navigateur
+      const token = response.data.access_token;
+      localStorage.setItem("token", token);
+
+      console.log("Inscription reussie !");
+      navigate("/dashboard"); // redirection sur le dashboard apres inscription
+      
+    } catch (err: any) {
+      // 4. Gestion des erreurs du Backend
+      if(err.response?.data?.errors) {
+        // on transforme les erreurs laravel pour l'afficharge react
+        const serverErrors: Record<string, string> = {};
+        Object.keys(err.response.data.errors).forEach((key) => {
+          serverErrors[key] = err.response.data.errors[key][0];
+        });
+        setErrors(serverErrors);
+      } else {
+        setErrors({ submit: 'Une erreur est survenue. Veuillez réessayer.' });
+      } finally {
+        setIsLoading(false);
+      }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
