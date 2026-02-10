@@ -92,10 +92,11 @@ const Register = () => {
         setErrors(serverErrors);
       } else {
         setErrors({ submit: 'Une erreur est survenue. Veuillez réessayer.' });
-      } finally {
-        setIsLoading(false);
       }
-  };
+    } finally {
+      setIsLoading(false);
+    }
+    };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
