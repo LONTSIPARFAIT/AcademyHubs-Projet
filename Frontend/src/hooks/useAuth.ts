@@ -1,77 +1,22 @@
-import { useState, useEffect } from 'react';
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
-
-interface AuthState {
-  user: User | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-}
+import { useEffect, useState } from "react";
 
 export const useAuth = () => {
-  const [authState, setAuthState] = useState<AuthState>({
-    user: null,
-    isAuthenticated: false,
-    isLoading: true
-  });
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Simuler la vérification de l'authentification
-    const checkAuth = () => {
-      const token = localStorage.getItem('auth_token');
-      if (token) {
-        // Ici, vous feriez un appel API pour vérifier le token
-        // Pour l'instant, on simule un utilisateur connecté
-        setAuthState({
-          user: { id: 1, name: 'Utilisateur Test', email: 'test@example.com' },
-          isAuthenticated: true,
-          isLoading: false
-        });
-      } else {
-        setAuthState({
-          user: null,
-          isAuthenticated: false,
-          isLoading: false
-        });
+    // on va chercher le token dans le navigateur
+    const fetchUser = async () => {
+      // on appele la route /user de laravel pour voir si le token est valide
+      // NB: l'intercepteur axios va automatiquement ajouter le token a la requete
+      try {
+        const response = await api.get("/user");
+        setUser(response.data); // si le token est valide, on met a jour l'etat user avec les infos de l'utilisateur
+      } catch (error) {
+        // si le token est perimer ou absent on nettoie tous
+        localStorage.removeItem("token");
+        setUser(null);
       }
-    };
-
-    checkAuth();
-  }, []);
-
-  const login = async (email: string, _password: string) => {
-    // Simuler un appel API de connexion
-    setAuthState(prev => ({ ...prev, isLoading: true }));
-
-    // Simulation d'un délai
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    // Simuler une connexion réussie
-    const user = { id: 1, name: 'Utilisateur Test', email };
-    localStorage.setItem('auth_token', 'fake_token');
-    setAuthState({
-      user,
-      isAuthenticated: true,
-      isLoading: false
-    });
-  };
-
-  const logout = () => {
-    localStorage.removeItem('auth_token');
-    setAuthState({
-      user: null,
-      isAuthenticated: false,
-      isLoading: false
-    });
-  };
-
-  return {
-    ...authState,
-    login,
-    logout
-  };
-};
+    }
+  });
+}
