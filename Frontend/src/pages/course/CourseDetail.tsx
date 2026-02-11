@@ -42,7 +42,7 @@ const CourseDetail = () => {
   if (isLoading) return <div className="p-10 text-center">Chargement du cours...</div>;
   if (!course) return <div className="p-10 text-center">Cours non trouvé.</div>;
 
-
+  const navigate = useNavigate();
   // 2. la fonction d'inscription
   const handleEnroll = async () => {
     if(!isAuthenticated) {
