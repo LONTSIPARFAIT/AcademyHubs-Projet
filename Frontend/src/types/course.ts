@@ -19,7 +19,7 @@ export interface Course {
   thumbnail: string | null; // correspond au champ 'thumbnail' dans le backend
   category: Category; // Relation Laravel belongsTo (objet avec name)
   instructor: User; // Relation Laravel belongsTo (objet User)
-  lessons?: Lesson[]; // Relation Laravel hasMany
+  sections?: Section[]; // Relation Laravel hasMany
 
   // Champs optionnels utilisés côté UI (backend peut ne pas les fournir)
   img?: string; // alias éventuel côté front
@@ -32,4 +32,12 @@ export interface Course {
   progress?: number;
   students?: number;
   enrolled?: boolean;
+}
+
+export interface Section {
+  id: number;
+  course_id: number;
+  title: string;
+  order: number;
+  lessons: Lesson[]; // une section contient un tableau de lecons 
 }
