@@ -3,12 +3,15 @@ import type { User } from "./user";
 
 export interface Lesson {
   id: number;
+  section_id: number;
   course_id: number;
   title: string;
   slug: string;
-  content?: string;
-  video_url?: string;
+  content: string | null;
+  video_url: string | null;
   order: number;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface Course {
@@ -17,9 +20,10 @@ export interface Course {
   slug: string;
   description: string;
   thumbnail: string | null; // correspond au champ 'thumbnail' dans le backend
-  category: Category; // Relation Laravel belongsTo (objet avec name)
+  category?: Category; // Relation Laravel belongsTo (objet avec name)
   instructor: User; // Relation Laravel belongsTo (objet User)
   sections?: Section[]; // Relation Laravel hasMany
+  is_enrolled?: boolean;
 
   // Champs optionnels utilisés côté UI (backend peut ne pas les fournir)
   img?: string; // alias éventuel côté front

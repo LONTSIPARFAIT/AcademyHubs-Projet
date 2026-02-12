@@ -73,15 +73,25 @@ const CourseDetail = () => {
 
   const handleEnroll = async () => {
     if (!isAuthenticated) {
+      // Si l'utilisateur n'est pas connecté, on l'envoie au login
       navigate('/login');
       return;
     }
 
     setIsEnrolling(true);
     try {
-      await api.post(`/course/${course!.slug}/enroll`);
+      await api.post(`/courses/${course!.slug}/enroll`);
       setIsEnrolled(true);
-      alert('Félicitations ! Vous êtes maintenant inscrit à ce cours.');
+
+      // REDIRECTION AUTOMATIQUE :
+    // On cherche la toute première leçon du premier chapitre
+      const firstLessonSlug = course?.section[0]?.lesson[0]?.slug;
+
+      if(firstLessonSlug){
+        navigate(`/watch/${firstLessonSlug}`);
+      } else {
+        alert('Félicitations ! Vous êtes maintenant inscrit à ce cours.');
+      }
     } catch (err) {
       alert("Erreur lors de l'inscription");
     } finally {
@@ -287,7 +297,18 @@ const CourseDetail = () => {
                 </div>
 
                 <button
-                  onClick={handleEnroll}
+                  onClick={() => {
+                    if (isEnrolled) {
+                      // Si déjà inscrit, on cherche la première leçon pour rediriger
+                      const firstLessonSlug = course?.sections?.[0]?.lessons?.[0]?.slug;
+                      if (firstLessonSlug) {
+                        navigate(`/watch/${firstLessonSlug}`);
+                      }
+                    } else {
+                      // Sinon, on lance l'inscription
+                      handleEnroll();
+                    }
+                  }}
                   disabled={isEnrolling}
                   className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 relative overflow-hidden group ${
                     isEnrolled

@@ -11,6 +11,7 @@ import MentorsPage from "./pages/MentorsPage.tsx";
 import AboutPage from "./pages/AboutPage.tsx";
 import ContactPage from "./pages/ContactPage.tsx";
 import DashboardPage from "./pages/DashBoardPage.tsx";
+import LessonPlayerPage from "./pages/course/LessonPlayerPage.tsx";
 
 function App() {
   return (
@@ -25,7 +26,8 @@ function App() {
           <Route path="/mentors" element={<MentorsPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/watch/:lessonSlug" element={<LessonPlayerPage />} />
         </Route>
 
         <Route path="/login" element={<Login />} />
