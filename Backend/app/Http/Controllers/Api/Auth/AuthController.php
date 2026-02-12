@@ -68,4 +68,9 @@ class AuthController extends Controller
         // 1. on supprime le token du user
         $request->user()->tokens()->delete();
     }
+
+    public function me(Request $request){
+        // on renvoie l'utilisateur avec ses IDs de cours inscrit
+        return $request->user()->load('enrolledCourses:id');
+    }
 }
