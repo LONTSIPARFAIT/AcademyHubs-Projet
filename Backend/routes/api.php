@@ -6,17 +6,14 @@ use App\Http\Controllers\Api\Learning\EnrollmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
 Route::middleware('auth:sanctum')->group( function () {
+    Route::get('/user', [AuthController::class, 'me']); 
 
     // Inscription au cours
     Route::post('/courses/{course}/enroll', [EnrollmentController::class, 'enroll']);
 
     // Lecture d'une lecons
-    Route::get('/lessons/{lesson:slug}' [CourseController::class, 'ShowLesson']);
+    Route::get('/lessons/{lesson:slug}', [CourseController::class, 'showLesson']);
 });
 
 // --- ROUTES PUBLIQUES (Tout le monde voit) ---
