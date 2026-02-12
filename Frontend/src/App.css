@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@plugin "@tailwindcss/typography";
+
 /* Configuration du mode sombre pour Tailwind CSS v4 */
 @custom-variant dark (&:where(.dark, .dark *));
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import type { Lesson, Course } from '../../types';
-import { CourseSyllabus } from '../../components/course/CourseSyllabus';
 import { ChevronLeft, PlayCircle, FileText } from 'lucide-react';
 import api from '../../api/axios';
+import { CourseSyllabus } from './CourseSyllabus';
 
 const LessonPlayerPage = () => {
   const { lessonSlug } = useParams<{ lessonSlug: string }>();
@@ -48,17 +48,17 @@ const LessonPlayerPage = () => {
           </button>
           <h2 className="font-bold text-gray-900 dark:text-white line-clamp-2">{course.title}</h2>
         </div>
-        <div className="flex-1 overflow-y-auto">
-          {/* On réutilise ton Syllabus ici ! */}
-          <CourseSyllabus 
-            sections={course.sections} 
-            isEnrolled={true} 
-            completedLessons={new Set()} 
-            toggleLessonCompletion={() => {}}
-            openSectionId={lesson.section_id}
-            toggleSection={() => {}}
-          />
-        </div>
+<div className="flex-1 overflow-y-auto custom-scrollbar">
+  {/* AJOUTE CETTE CONDITION && */}
+  {course && course.sections && (
+    <CourseSyllabus 
+      sections={course.sections} 
+      isEnrolled={true} 
+      completedLessons={new Set()} // Obligatoire selon ton interface
+      toggleLessonCompletion={(id) => console.log("Terminer leçon", id)} 
+    />
+  )}
+</div>
       </aside>
 
       {/* ZONE DE CONTENU (Droite) */}

@@ -5,16 +5,29 @@ import { useNavigate } from 'react-router-dom';
 
 interface SyllabusProps {
   sections: Section[];
-  completedLessons: Set<number>; // On utilise un Set pour une recherche ultra-rapide
-  toggleLessonCompletion: (lessonId: number) => void;
+  completedLessons?: Set<number>; // On utilise un Set pour une recherche ultra-rapide
+  toggleLessonCompletion?: (lessonId: number) => void;
   isEnrolled: boolean; // Pour savoir si l'élève a le droit de cliquer
 }
 
 export const CourseSyllabus = ({ sections, isEnrolled }: SyllabusProps)  => {
  
-  const [openSectionId, setOpenSectionId] = React.useState<number | null>(sections[0]?.id || null);
+  // const [openSectionId, setOpenSectionId] = React.useState<number | null>(sections[0]?.id || null);
+  const [openSectionId, setOpenSectionId] = React.useState<number | null>(null);
   const [completedLessons, setCompletedLessons] = useState<Set<number>>(new Set());
    const navigate = useNavigate();
+
+   // On ouvre la première section automatiquement dès que les sections sont chargées
+  React.useEffect(() => {
+    if (sections.length > 0 && openSectionId === null) {
+      setOpenSectionId(sections[0].id);
+    }
+  }, [sections]);
+
+  // SÉCURITÉ : Si pas de sections, on affiche rien au lieu de crash
+  if (!sections || sections.length === 0) {
+    return <div className="text-gray-500 text-sm p-4">Chargement du programme...</div>;
+  }
 
   const toggleSection = (id: number) => {
     setOpenSectionId(openSectionId === id ? null : id);
