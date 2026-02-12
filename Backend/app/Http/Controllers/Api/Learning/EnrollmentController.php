@@ -14,7 +14,7 @@ class EnrollmentController extends Controller
 
         // On lie l'utilisateur au cours dans la table pivot (enrollments)
         // syncWithoutDetaching évite les doublons si on clique 2 fois
-        $user->enrolenrolledCourses()->syncWithoutDetaching([$course->id]);
+        $user->enrolledCourses()->syncWithoutDetaching([$course->id]);
 
         return response()->json([
             'message' => 'Inscription Reussie !',

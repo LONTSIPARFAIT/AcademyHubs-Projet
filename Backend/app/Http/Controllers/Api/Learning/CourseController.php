@@ -21,13 +21,15 @@ class CourseController extends Controller
 
     public function show(Course $course) {
         // on charge les cours avec ses lecons trier selon la categorie
-        $course->load(['category', 'instructor', 'lessons']);
+        $course->load(['category', 'instructor', 'sections.lessons']);
 
         // on ajoute l'info de l'inscription
         $user = auth('sanctum')->user();
 
         // on ajoute dynamiquement une propriete 'is_enrolled'
-        $course->is_enrolled = $user ? $user->enrolledCourses()->where('course_id', $course->id)->exists() : false;
+        $course->is_enrolled = ($user) 
+        ? $user->enrolledCourses()->where('course_id', $course->id)->exists() 
+        : false;
 
         return response()->json($course);
     }
@@ -35,7 +37,7 @@ class CourseController extends Controller
     public function ShowLesson($slug){
         $user = auth()->user();
 
-        // 1. on cherche la lesson
+        //  1. On cherche la leçon (on peut utiliser with('course') ici)
         $lesson = Lesson::where('slug', $slug)->firstOrFail();
 
         // 2.on verifie si le user est inscrire a ce cours
@@ -45,6 +47,6 @@ class CourseController extends Controller
             return response()->json(['message' => "Vous n'etes pas inscrire a ce cours"], 403);
         }
 
-        return response()->json($lesson);
+        return response()->json($lesson->load('course:id,slug'));
     }
 }
