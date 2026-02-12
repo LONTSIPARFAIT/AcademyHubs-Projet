@@ -8,11 +8,12 @@ const DashboardPage = () => {
     const navigate = useNavigate();
 
     // le chargement de la page
+
     if (loading) return <div>Loading...</div>;
 
     // Securite: si pas connecter retour au login
     if (!isAuthenticated) {
-        navigate("/login");
+        navigate("/login"); 
         return null; // on retourne null pour ne rien afficher pendant la redirection
     }
 
