@@ -11,12 +11,15 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->group( function () {
+
+    // Inscription au cours
     Route::post('/courses/{course}/enroll', [EnrollmentController::class, 'enroll']);
+
+    // Lecture d'une lecons
+    Route::get('/lessons/{lesson:slug}' [CourseController::class, 'ShowLesson']);
 });
 
-Route::get('/lessons/{lesson:slug}', function (App\Models\Lesson $lesson) {
-    return response()->json($lesson);
-});
+// --- ROUTES PUBLIQUES (Tout le monde voit) ---
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/courses', [CourseController::class, 'index']);

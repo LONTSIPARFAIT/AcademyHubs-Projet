@@ -28,4 +28,20 @@ class CourseController extends Controller
             'sections.lessons'
         ]));
     }
+
+    public function ShowLesson($slug){
+        $user = auth()->user();
+
+        // 1. on cherche la lesson
+        $lesson = Lesson::where('slug', $slug)->firtOrFail();
+
+        // 2.on verifie si le user est inscrire a ce cours
+        $isEnrolled = $user->enrolledCourses()->where('course_id', $lesson->course_id)->exists();
+
+        if(!$isEnroled) {
+            return response()->json(['message' => "Vous n'etes pas inscrire a ce cours"], 403);
+        }
+
+        return response()->json($lesson);
+    }
 }
