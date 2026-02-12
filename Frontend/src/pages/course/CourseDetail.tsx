@@ -34,6 +34,9 @@ const CourseDetail = () => {
       try {
         const response = await api.get(`/courses/${slug}`);
         setCourse(response.data);
+
+        // On récupère le statut is_enrolled envoyé par le backend
+        setIsEnrolled(response.data.is_enrolled); 
         
         // Récupérer les cours similaires après avoir le cours principal
         fetchSimilarCourses(response.data.category?.id);
