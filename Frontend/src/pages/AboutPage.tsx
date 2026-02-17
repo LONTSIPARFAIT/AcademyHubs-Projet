@@ -42,7 +42,7 @@ const AboutPage: React.FC = () => {
             <div className="bg-white rounded-lg shadow-md p-6">
               <h3 className="text-lg font-semibold mb-2">Communauté Active</h3>
               <p className="text-gray-600">
-                Rejoigne une communauté d'apprenants et partagez vos expériences.
+                Rejoignez une communauté d'apprenants et partagez vos expériences.
               </p>
             </div>
           </div>
