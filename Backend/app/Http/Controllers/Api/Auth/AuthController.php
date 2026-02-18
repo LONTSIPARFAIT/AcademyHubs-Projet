@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -14,7 +15,7 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
+            'password' => 'required|min:6|confirmed',
         ]);
 
         // 2- on cree un utilisateur dans la bd
@@ -30,14 +31,14 @@ class AuthController extends Controller
 
         // 4- on retourne une reponse a react
         return response()->json([
-            'user' => $user,
+            'user' => new UserResource($user),
             'access_token' => $token,
             'token_type' => 'Bearer',
         ], 201);
     }
 
     public function login (Request $request) {
-        // 1. Validation : on verifie que leimail et le pass ont ete envoyer
+        // 1. Validation : on verifie que l'email et le pass ont ete envoyer
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -59,7 +60,7 @@ class AuthController extends Controller
 
         // 5. on retourne une reponse a react
         return response()->json([
-            'user' => $user,
+            'user' => new UserResource($user),
             'access_token' => $token,
             'token_type' => 'Bearer',
         ], 200);

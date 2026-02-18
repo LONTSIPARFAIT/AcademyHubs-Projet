@@ -16,12 +16,13 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'name' => $this->name,
             'email' => $this->email,
             'role' => $this->role,
             'enrolled_course_ids' => $this->whenLoaded('enrolledCourses', function() {
                 return $this->enrolledCourses->pluck('id');
             }),
-            'created_at' => $this->created_at->format('d/m/Y'),
+            'created_at' => $this->created_at ? $this->created_at->format('d/m/Y') : null,
         ];
         // return parent::toArray($request);
     }
