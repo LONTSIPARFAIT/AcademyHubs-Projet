@@ -51,14 +51,17 @@ class AuthController extends Controller
         // on utilise Hash::check pour comparer le pass saisir avec celui crypté en base
         if(!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
-                'message' => 'Invalid credentials'
+                'message' => 'Email ou mot de passe incorrect'
             ], 401); // 401 : Unauthorized
         }
 
-        // 4. Succès : On crée un nouveau jeton (token)
+        // 4. Suppression des anciens tokens (optionnel mais recommandé)
+        $user->tokens()->delete();
+
+        // 5. Création d'un nouveau token
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        // 5. on retourne une reponse a react
+        // 6. on retourne une reponse a react
         return response()->json([
             'user' => new UserResource($user),
             'access_token' => $token,
@@ -74,6 +77,6 @@ class AuthController extends Controller
 
     public function me(Request $request){
         // on renvoie l'utilisateur avec ses IDs de cours inscrit
-        return $request->user()->load('enrolledCourses:id');
+        return new UserResource($request->user()->load('enrolledCourses'));
     }
 }
