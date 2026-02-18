@@ -19,8 +19,9 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'role' => $this->role,
             'enrolled_course_ids' => $this->whenLoaded('enrolledCourses', function() {
-                return ;
+                return $this->enrolledCourses->pluck('id');
             }),
+            'created_at' => $this->created_at->format('d/m/Y'),
         ];
         // return parent::toArray($request);
     }
