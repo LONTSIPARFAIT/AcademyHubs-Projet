@@ -11,7 +11,7 @@ class AuthController extends Controller
 {
    public function register (Request $request) {
         //  1- verification des info envoyer par react
-        $request->validate([            
+        $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
@@ -45,7 +45,7 @@ class AuthController extends Controller
         // 2. on verifie que le user existe et que le mot de passe est correct
         $user = User::where('email', $request->email)->first();
 
-        // 3.Vérification : si le user n'existe pas ou que le mot de passe est incorrect 
+        // 3.Vérification : si le user n'existe pas ou que le mot de passe est incorrect
         // on utilise Hash::check pour comparer le pass saisir avec celui crypté en base
         if(!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
@@ -66,7 +66,8 @@ class AuthController extends Controller
 
     public function logout (Request $request) {
         // 1. on supprime le token du user
-        $request->user()->tokens()->delete();
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['message' => 'Déconnecté'], 200);
     }
 
     public function me(Request $request){
