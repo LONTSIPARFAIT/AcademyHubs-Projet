@@ -10,8 +10,8 @@ class UserController extends Controller
     public function updatePoofile(Request $request) {
         $user = $request->user();
 
-        $resquest->validate([
-            'name' => 'required|'
+        $request->validate([
+            'name' => 'required|string|min:3'
         ]);
     }
 }
