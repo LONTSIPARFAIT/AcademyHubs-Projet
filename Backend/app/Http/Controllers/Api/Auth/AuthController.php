@@ -76,7 +76,8 @@ class AuthController extends Controller
     }
 
     public function me(Request $request){
-        // on renvoie l'utilisateur avec ses IDs de cours inscrit
-        return new UserResource($request->user()->load('enrolledCourses'));
+        // on utilise load() pour que les enrolled_course_ids apparaisse dans la resource
+        $user = $request->user()->load('enrolledCourses');
+        return new UserResource($user);
     }
 }
