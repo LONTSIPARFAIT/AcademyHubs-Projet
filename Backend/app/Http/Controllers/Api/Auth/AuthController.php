@@ -22,6 +22,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password), // cryptage du mot de passe
+            'role' => 'student',
         ]);
 
         // 3- on lui genere un token d'authentification
