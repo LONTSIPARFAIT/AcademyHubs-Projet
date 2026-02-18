@@ -7,5 +7,11 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    //
+    public function updatePoofile(Request $request) {
+        $user = $request->user();
+
+        $resquest->validate([
+            'name' => 'required|'
+        ]);
+    }
 }
