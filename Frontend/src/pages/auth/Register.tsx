@@ -3,9 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import AuthLayout from '../../components/layout/AuthLayout';
 import { Input, Button, Checkbox } from '../../components/ui';
 import api from '../../api/axios';
+import { useAuthContext } from '../../context/AuthContext';
 
 const Register = () => {
   const navigate = useNavigate();
+  const { register } = useAuthContext();
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -68,15 +71,12 @@ const Register = () => {
 
     try {
       // 2. Appel reel a laravel
-      const response = await api.post("/register", {
+      const response = await register({
         name : `${formData.firstName} ${formData.lastName}`,
         email : formData.email,
         password : formData.password,
+        password_confirmation: formData.confirmPassword // Souvent requis par Laravel
       })
-
-      // 3. Stokage du token dans le navigateur
-      const token = response.data.access_token;
-      localStorage.setItem("token", token);
 
       console.log("Inscription reussie !");
       navigate("/dashboard"); // redirection sur le dashboard apres inscription
