@@ -7,12 +7,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group( function () {
-    Route::get('/user', [AuthController::class, 'me']); 
+    Route::get('/user', [AuthController::class, 'me']);
 
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/users', [UserController::class, 'index']);
     Route::put('/users/{user}/role', [UserController::class, 'updateRole']);
+    // mise a jour du profil (Nom et Email)
+    Route::put('user/profile', [UserController::class, 'updateProfile']);
+    
 
     // Inscription au cours
     Route::post('/courses/{course}/enroll', [EnrollmentController::class, 'enroll']);
