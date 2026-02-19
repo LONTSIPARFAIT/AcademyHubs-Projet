@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthController;
-use App\Http\Controllers\Api\Auth\UserController;
 use App\Http\Controllers\Api\Learning\CourseController;
 use App\Http\Controllers\Api\Learning\EnrollmentController;
 use Illuminate\Http\Request;
