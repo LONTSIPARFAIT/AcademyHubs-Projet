@@ -187,7 +187,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
                   {getInstructorInitials(course.instructor)}
               </span>
             </div>
-              <span className="text-xs text-gray-600 dark:text-gray-400 truncate max-w-[100px]">
+              <span className="text-xs text-gray-600 dark:text-gray-400 truncate max-w-25">
                 {typeof course.instructor === 'string' ? course.instructor : course.instructor?.name}
               </span>
           </div>

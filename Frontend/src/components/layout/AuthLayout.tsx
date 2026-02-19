@@ -18,10 +18,10 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({
   showTerms = true,
 }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <div className="flex min-h-screen">
         {/* Colonne de gauche - Image et présentation */}
-        <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 min-h-screen">
+        <div className="hidden lg:flex lg:w-1/2 relative bg-slate-900 min-h-screen">
           <div className="absolute inset-0 overflow-hidden">
             <img
               src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80"
@@ -35,7 +35,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({
             {/* Logo et titre en haut */}
             <div className="mb-8">
               <Link to="/" className="inline-flex items-center gap-3 mb-8">
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
+                <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center">
                   <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                   </svg>
@@ -78,7 +78,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({
           {/* En-tête pour mobile */}
           <div className="lg:hidden mb-6">
             <Link to="/" className="inline-flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-600 rounded-xl flex items-center justify-center">
                 <svg className="w-6 h-6 sm:w-7 sm:h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>

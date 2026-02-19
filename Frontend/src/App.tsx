@@ -29,7 +29,7 @@ function App() {
           <Route path="/watch/:lessonSlug" element={<LessonPlayerPage />} />
         </Route>
 
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={
