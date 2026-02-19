@@ -3,9 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import AuthLayout from '../../components/layout/AuthLayout';
 import { Input, Button, Checkbox } from '../../components/ui';
 import api from '../../api/axios';
+import { useAuthContext } from '../../context/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuthContext();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -21,25 +23,13 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      //  1. on appele l'api de login de laravel avec les données du formulaire
-      const response = await api.post('/login', {
-        email: formData.email,
-        password: formData.password,
-      })
+      //  1. on appele l'api de login de notre context
+      await login(formData.email, formData.password);
 
-      // 2. on recupere le token envoyer par laravel
-      // Attention : verifier si ton laravel revoie le token dans la clé "access_token"
-      const token = response.data.access_token;
+      // 2. On affiche un petit message dans la console pour débugger
+      console.log('Connexion réussie via Context !');
 
-      // 3. on enregistre le token dans le navigateur pour les futurs appels d'api
-      localStorage.setItem('token', token);
-
-      // 4. on enregistre aussi les infos de l'utilisateur dans le navigateur
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-
-      console.log('Connexion Reussie !');
-
-      // on change la page seulement si le token est bien recu
+      // 3. LA REDIRECTION : elle se fait ici
       navigate('/dashboard');
       
     } catch (error: any) {

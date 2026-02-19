@@ -31,6 +31,12 @@ export const useAuth = () => {
   // LA FONCTION LOGIN (Celle attendue par ton Context)
   const login = async (email: string, password: string) => {
     const response = await api.post("/login", { email, password });
+
+    // on enreigistre le token pour que axios l'utilise
+    localStorage.setItem("token", response.data.access_token);
+
+    // on met a jour l'utilisateur pour que le context reagisse
+    setUser(response.data.user);
   };
 
   const logout = () => {
@@ -40,6 +46,12 @@ export const useAuth = () => {
     });
   }
 
-  return { user, isLoading, isAuthenticated: !!user, login, logout}
+  const register = async (userData: any) => {
+    const response = await api.post("/register", userData);
+    localStorage.setItem("token", response.data.access_token);
+    setUser(response.data.user);
+  };
+
+  return { user, isLoading, isAuthenticated: !!user, login, logout, register}
 
 }
