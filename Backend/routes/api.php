@@ -14,8 +14,11 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::get('/users', [UserController::class, 'index']);
     Route::put('/users/{user}/role', [UserController::class, 'updateRole']);
     // mise a jour du profil (Nom et Email)
-    Route::put('user/profile', [UserController::class, 'updateProfile']);
-    
+    Route::put('/user/profile', [UserController::class, 'updateProfile']);
+    // mise a jours du mot de passe
+    Route::put('/user/password', [UserController::class, 'updatePassword']);
+    // supression d'un user (Action Super Admin)
+    Route::delete('/user/{user}', [UserController::class, 'destroy']);
 
     // Inscription au cours
     Route::post('/courses/{course}/enroll', [EnrollmentController::class, 'enroll']);
