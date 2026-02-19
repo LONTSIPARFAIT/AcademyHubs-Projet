@@ -3,7 +3,7 @@ import api from "../api/axios";
 
 export const useAuth = () => {
    const [user, setUser] = useState<any>(null);
-   const [isloading, setIsLoading] = useState(true);
+   const [isLoading, setIsLoading] = useState(true);
 
    // Vérification au chargement
   useEffect(() => {
@@ -31,7 +31,6 @@ export const useAuth = () => {
   // LA FONCTION LOGIN (Celle attendue par ton Context)
   const login = async (email: string, password: string) => {
     const response = await api.post("/login", { email, password });
-    localStorage.setItem("token", response.data.data.token);
   };
 
   const logout = () => {
@@ -41,6 +40,6 @@ export const useAuth = () => {
     });
   }
 
-  return { user, isloading, isAuthenticated: !!user, login, logout}
+  return { user, isLoading, isAuthenticated: !!user, login, logout}
 
 }
