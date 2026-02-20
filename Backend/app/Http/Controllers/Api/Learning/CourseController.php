@@ -16,7 +16,7 @@ class CourseController extends Controller
         ->get();
         
         // on retourne les cours a react
-        return response()->json($course);
+        return response()->json($courses);
     }
 
     public function show(Course $course) {
