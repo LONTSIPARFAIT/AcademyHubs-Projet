@@ -24,6 +24,6 @@ class UserResource extends JsonResource
             }),
             'created_at' => $this->created_at ? $this->created_at->format('d/m/Y') : null,
         ];
-        return parent::toArray($request);
+        // return parent::toArray($request);
     }
 }
