@@ -18,7 +18,7 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'role' => $this->role,
+            'rol' => $this->role,
             'enrolled_course_ids' => $this->whenLoaded('enrolledCourses', function() {
                 return $this->enrolledCourses->pluck('id');
             }),
