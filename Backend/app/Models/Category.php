@@ -8,6 +8,6 @@ class Category extends Model
 {
     protected $fillable = ['name', 'slug', 'icon'];
     public function courses(){
-        return $this->hasMany(Cour::class);
+        return $this->hasMany(Cours::class);
     }
 }
