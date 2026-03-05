@@ -22,7 +22,7 @@ class UserResource extends JsonResource
             'enrolled_course_ids' => $this->whenLoaded('enrolledCourses', function() {
                 return $this->enrolledCourses->pluck('id');
             }),
-            'created_at' => $this->created_a ? $this->created_at->format('d/m/Y') : null,
+            'created_at' => $this->created_at ? $this->created_at->format('d/m/Y') : null,
         ];
         // return parent::toArray($request);
     }
