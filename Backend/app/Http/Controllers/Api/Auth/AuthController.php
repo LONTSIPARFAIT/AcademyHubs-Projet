@@ -37,6 +37,9 @@ class AuthController extends Controller
         ], 201);
     }
 
+    /**
+     * Connexion d'un utilisateur existant.
+     */
     public function login (Request $request) {
         // 1. Validation : on verifie que l'email et le pass ont ete envoyer
         $request->validate([
@@ -75,6 +78,9 @@ class AuthController extends Controller
         return response()->json(['message' => 'Déconnecté'], 200);
     }
 
+     /**
+     * Met à jour les informations du profil.
+     */
     public function me(Request $request){
         // on utilise load() pour que les enrolled_course_ids apparaisse dans la resource
         $user = $request->user()->load('enrolledCourses');
