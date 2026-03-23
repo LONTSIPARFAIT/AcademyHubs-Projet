@@ -79,7 +79,7 @@ class AuthController extends Controller
     }
 
      /**
-     * Met à jour les informations du profil.
+     * Récupère le profil de l'utilisateur connecté via son Token.
      */
     public function me(Request $request){
         // on utilise load() pour que les enrolled_course_ids apparaisse dans la resource
